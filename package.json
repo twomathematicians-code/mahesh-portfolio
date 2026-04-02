@@ -2,7 +2,7 @@
   "name": "mahesh-solanki-portfolio",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://twomathematicians-code.github.io",
+  "homepage": "https://twomathematicians-code.github.io/mahesh-portfolio",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

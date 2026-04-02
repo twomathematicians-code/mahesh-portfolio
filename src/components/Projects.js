@@ -1,163 +1,125 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt, FaBrain, FaChartLine, FaHeartbeat, FaShieldAlt } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt, FaBrain, FaChartLine, FaHeartbeat, FaShieldAlt, FaCogs, FaRocket } from 'react-icons/fa';
 import './Projects.css';
 
 const Projects = () => {
   const projects = [
     {
       title: "CausalInference-Toolkit",
-      description: "Comprehensive causal inference toolkit implementing Propensity Score Matching, Instrumental Variables, Double Machine Learning, and Causal Discovery Algorithms for high-stakes decision making.",
-      domain: "Multi-Domain",
-      domainIcon: <FaBrain />,
+      description: "Comprehensive causal inference framework implementing Propensity Score Matching, Instrumental Variables, Double Machine Learning, and Causal Discovery Algorithms for high-stakes decision making in business, healthcare, and policy domains.",
+      domain: "Causal ML",
+      icon: <FaCogs />,
       tech: ["Python", "DoWhy", "EconML", "CausalNex"],
-      features: ["Treatment Effect Estimation", "Marketing Campaign ROI", "Risk Factor Identification"],
-      color: "primary",
+      highlights: ["Treatment Effect Estimation", "Marketing Campaign ROI", "Risk Factor Identification"],
       github: "https://github.com/twomathematicians-code/CausalInference-Toolkit",
-      priority: "HIGH"
+      priority: "Featured"
     },
     {
       title: "BiasCorrection-SEM",
-      description: "R package implementing Bartlett Correction for Likelihood Ratio Test bias reduction in Structural Equation Modelling. First computational framework for SEM bias reduction.",
+      description: "R package implementing Bartlett Correction for Likelihood Ratio Test bias reduction in Structural Equation Modelling. First computational framework for SEM bias reduction with applications in psychology and healthcare.",
       domain: "Research",
-      domainIcon: <FaChartLine />,
+      icon: <FaChartLine />,
       tech: ["R", "lavaan", "ggplot2", "Computational Statistics"],
-      features: ["Accurate Model Selection", "Psychology Applications", "Healthcare Validation"],
-      color: "secondary",
+      highlights: ["Accurate Model Selection", "Psychology Applications", "Healthcare Validation"],
       github: "https://github.com/twomathematicians-code/BiasCorrection-SEM",
-      priority: "HIGH"
+      priority: "Featured"
     },
     {
       title: "FinancialRisk-QuantLib",
-      description: "Quantitative finance toolkit featuring VaR calculations, Monte Carlo simulations, time series forecasting (ARIMA, LSTM, Prophet), and portfolio optimization.",
+      description: "Quantitative finance toolkit featuring VaR calculations, Monte Carlo simulations. time series forecasting (ARIMA, LSTM, Prophet), and portfolio optimization with stress testing capabilities.",
       domain: "Finance",
-      domainIcon: <FaChartLine />,
+      icon: <FaChartLine />,
       tech: ["Python", "NumPy", "Pandas", "PyTorch", "yfinance"],
-      features: ["Risk Assessment", "Strategy Backtesting", "Stress Testing"],
-      color: "accent",
+      highlights: ["Risk Assessment", "Strategy Backtesting", "Stress Testing"],
       github: "https://github.com/twomathematicians-code/FinancialRisk-QuantLib",
-      priority: "HIGH"
+      priority: "High"
     },
     {
       title: "HealthcareAnalytics-SEM",
       description: "Structural Equation Modelling framework for healthcare analytics including patient outcome prediction, treatment pathway analysis, and cost-effectiveness modelling.",
       domain: "Healthcare",
-      domainIcon: <FaHeartbeat />,
+      icon: <FaHeartbeat />,
       tech: ["R", "lavaan", "Python", "SHAP", "MIMIC-III"],
-      features: ["Outcome Prediction", "Treatment Effectiveness", "Resource Allocation"],
-      color: "primary",
+      highlights: ["Outcome Prediction", "Treatment Effectiveness", "Resource Allocation"],
       github: "https://github.com/twomathematicians-code/HealthcareAnalytics-SEM",
-      priority: "HIGH"
+      priority: "High"
     },
     {
       title: "Agent_DeepLearnMaster",
-      description: "Deep learning Python agent framework with production-ready implementations for customer churn prediction, credit risk scoring, and disease prediction.",
+      description: "Deep learning Python agent framework with production-ready implementations for customer churn prediction, credit risk scoring, and disease prediction with model interpretability.",
       domain: "AI/ML",
-      domainIcon: <FaBrain />,
+      icon: <FaBrain />,
       tech: ["Python", "PyTorch", "scikit-learn", "TensorFlow"],
-      features: ["Model Interpretability", "Production Deployment", "Multi-Domain Applications"],
-      color: "secondary",
+      highlights: ["Model Interpretability", "Production Deployment", "Multi-Domain Applications"],
       github: "https://github.com/twomathematicians-code/Agent_DeepLearnMaster",
-      priority: "FEATURED"
+      priority: "Medium"
     },
     {
       title: "DefenseOptimization",
       description: "Operations research toolkit for defense applications featuring resource allocation optimization, logistics planning, and strategic simulation models.",
       domain: "Defense",
-      domainIcon: <FaShieldAlt />,
+      icon: <FaShieldAlt />,
       tech: ["Python", "PuLP", "OR-Tools", "Simulation"],
-      features: ["Resource Optimization", "Logistics Planning", "Risk Assessment"],
-      color: "accent",
+      highlights: ["Resource Optimization", "Logistics Planning", "Risk Assessment"],
       github: "https://github.com/twomathematicians-code/DefenseOptimization",
-      priority: "MEDIUM"
+      priority: "Medium"
     }
   ];
 
   return (
     <section id="projects" className="projects section">
       <div className="container">
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          Featured Projects
-        </motion.h2>
+        <h2 className="section-title">Featured Projects</h2>
 
         <div className="projects-grid">
           {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              className={`project-card ${project.color}`}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              whileHover={{ y: -10 }}
-            >
+            <div key={index} className="project-card card">
               <div className="project-header">
                 <div className="project-domain">
-                  <span className="domain-icon">{project.domainIcon}</span>
+                  <span className="domain-icon">{project.icon}</span>
                   <span className="domain-name">{project.domain}</span>
                 </div>
-                {project.priority === "HIGH" && (
-                  <span className="priority-badge">🔥 High Priority</span>
+                {project.priority === "Featured" && (
+                  <span className="priority-badge featured">Featured</span>
+                )}
+                {project.priority === "High" && (
+                  <span className="priority-badge high">High Priority</span>
                 )}
               </div>
 
               <h3 className="project-title">{project.title}</h3>
+              
               <p className="project-description">{project.description}</p>
 
-              <div className="project-features">
-                {project.features.map((feature, idx) => (
-                  <span key={idx} className="feature-tag">
-                    • {feature}
-                  </span>
-                ))}
+              <div className="project-highlights">
+                <strong>Key Features:</strong>
+                <ul>
+                  {project.highlights.map((highlight, idx) => (
+                    <li key={idx}>{highlight}</li>
+                  ))}
+                </ul>
               </div>
 
               <div className="tech-stack">
                 {project.tech.map((tech, idx) => (
-                  <span key={idx} className="tech-tag">
-                    {tech}
-                  </span>
+                  <span key={idx} className="tag">{tech}</span>
                 ))}
               </div>
 
               <div className="project-links">
-                <motion.a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="project-link"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
                   <FaGithub /> View Code
-                </motion.a>
+                </a>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.div
-          className="github-cta"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6 }}
-        >
-          <a
-            href="https://github.com/twomathematicians-code"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-secondary"
-          >
+        <div className="github-cta">
+          <a href="https://github.com/twomathematicians-code" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
             <FaGithub /> View All Projects on GitHub
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

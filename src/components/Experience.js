@@ -1,6 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { FaBriefcase, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import './Experience.css';
 
 const Experience = () => {
@@ -13,20 +11,22 @@ const Experience = () => {
       type: "Research",
       description: [
         "Thesis: Reduction of Bias in Likelihood Ratio Tests for Structural Equation Modelling",
+        "Developing computational methods to improve causal inference accuracy",
         "Implementing Bartlett Correction for lavaan package in R",
-        "Computational Statistics focus with applications in psychology and healthcare"
+        "Applications in psychology, healthcare, and social sciences"
       ]
     },
     {
       title: "Data Analyst",
       company: "LearningMate Solutions",
-      location: "Belgium",
+      location: "India",
       period: "2022 - 2025",
       type: "Full-time",
       description: [
         "Educational data mining and student performance prediction",
         "Learning pattern analysis and adaptive learning systems",
-        "Statistical modelling for educational outcomes"
+        "Statistical modelling for educational outcomes",
+        "Developed predictive models for student success metrics"
       ]
     },
     {
@@ -38,7 +38,8 @@ const Experience = () => {
       description: [
         "Data-driven supply chain optimization and vendor pricing",
         "Improved profit margins through data-driven negotiations",
-        "Established standardized data workflows and analytics pipelines"
+        "Established standardized data workflows and analytics pipelines",
+        "Built decision support systems for inventory management"
       ]
     },
     {
@@ -50,7 +51,8 @@ const Experience = () => {
       description: [
         "Advanced mathematical theory and analysis",
         "Research in mathematical frameworks",
-        "Foundation for statistical and computational methods"
+        "Foundation for statistical and computational methods",
+        "Thesis on advanced mathematical structures"
       ]
     }
   ];
@@ -58,56 +60,29 @@ const Experience = () => {
   return (
     <section id="experience" className="experience section">
       <div className="container">
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          Experience & Education
-        </motion.h2>
+        <h2 className="section-title">Experience & Education</h2>
 
-        <div className="timeline">
+        <div className="experience-list">
           {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              className="timeline-item"
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-            >
-              <div className="timeline-marker">
-                <div className="marker-dot"></div>
-                <div className="marker-line"></div>
-              </div>
-
-              <div className="timeline-content glow-box">
-                <div className="exp-header">
-                  <div className="exp-type">{exp.type}</div>
-                  <div className="exp-period">
-                    <FaCalendarAlt /> {exp.period}
+            <div key={index} className="experience-item">
+              <div className="exp-header">
+                <div>
+                  <h3 className="exp-title">{exp.title}</h3>
+                  <div className="exp-company">{exp.company}</div>
+                  <div className="exp-meta">
+                    <span className="exp-location">📍 {exp.location}</span>
+                    <span className="exp-period">📅 {exp.period}</span>
+                    <span className={`exp-type ${exp.type.toLowerCase()}`}>{exp.type}</span>
                   </div>
                 </div>
-
-                <h3 className="exp-title">{exp.title}</h3>
-                
-                <div className="exp-company">
-                  <FaBriefcase /> {exp.company}
-                </div>
-
-                <div className="exp-location">
-                  <FaMapMarkerAlt /> {exp.location}
-                </div>
-
-                <ul className="exp-description">
-                  {exp.description.map((item, idx) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-                </ul>
               </div>
-            </motion.div>
+              
+              <ul className="exp-description">
+                {exp.description.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
       </div>

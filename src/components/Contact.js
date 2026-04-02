@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { FaEnvelope, FaLinkedin, FaGithub, FaMapMarkerAlt, FaPaperPlane } from 'react-icons/fa';
 import './Contact.css';
 
@@ -17,7 +16,6 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Create mailto link
     const mailtoLink = `mailto:maheshsinh1910@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`)}`;
     window.location.href = mailtoLink;
   };
@@ -32,7 +30,7 @@ const Contact = () => {
     {
       icon: <FaLinkedin />,
       label: "LinkedIn",
-      value: "linkedin.com/in/mahesh-solanki",
+      value: "linkedin.com/in/mahesh-solanki-16b9a6a5",
       href: "https://linkedin.com/in/mahesh-solanki-16b9a6a5"
     },
     {
@@ -52,41 +50,19 @@ const Contact = () => {
   return (
     <section id="contact" className="contact section">
       <div className="container">
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          Get In Touch
-        </motion.h2>
+        <h2 className="section-title">Contact</h2>
 
         <div className="contact-content">
-          <motion.div
-            className="contact-info"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h3>Let's Connect</h3>
+          <div className="contact-info">
+            <h3>Get in Touch</h3>
             <p>
-              I'm currently seeking <strong>Data Analyst / Data Scientist</strong> positions 
-              in Belgium and the EU. Available for internships and full-time roles.
+              I'm currently seeking <strong>Computational Scientist / Data Scientist</strong> positions 
+              in Belgium and the EU. Available for internships and full-time roles starting September 2025.
             </p>
 
             <div className="contact-details">
               {contactInfo.map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="contact-item"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ x: 10 }}
-                >
+                <div key={index} className="contact-item">
                   <div className="contact-icon">{item.icon}</div>
                   <div className="contact-text">
                     <span className="contact-label">{item.label}</span>
@@ -98,19 +74,12 @@ const Contact = () => {
                       <span>{item.value}</span>
                     )}
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.form
-            className="contact-form glow-box"
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <form className="contact-form card" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Your Name</label>
               <input
@@ -163,15 +132,10 @@ const Contact = () => {
               ></textarea>
             </div>
 
-            <motion.button
-              type="submit"
-              className="submit-btn"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
+            <button type="submit" className="btn btn-primary">
               <FaPaperPlane /> Send Message
-            </motion.button>
-          </motion.form>
+            </button>
+          </form>
         </div>
       </div>
     </section>
