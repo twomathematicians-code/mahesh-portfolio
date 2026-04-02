@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Areas | Computational Mathematics Lab</title>
+  <meta name="description" content="Explore our research areas: Causal Inference, Structural Equation Modelling, and Neural-Symbolic AI Systems">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <span class="lab-name">Computational Mathematics Lab</span>
+        <span class="lab-subtitle">Causal Inference • SEM • AI Research</span>
+      </a>
+      
+      <div class="nav-links">
+        <a href="index.html" style="color: var(--primary); font-weight: 600;">Research</a>
+        <a href="../publications/index.html">Publications</a>
+        <a href="../projects/index.html">Projects</a>
+        <a href="../about/index.html">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Research Areas</h1>
+      <p class="page-description">
+        Our research focuses on developing computational methods at the intersection of mathematics, statistics, and artificial intelligence.
+      </p>
+    </div>
+  </section>
+
+  <!-- Research Areas -->
+  <section class="research-detail">
+    <div class="container">
+      
+      <!-- Causal Inference -->
+      <div class="research-section" id="causal-inference">
+        <div class="section-header">
+          <div class="section-icon">∂</div>
+          <h2>Causal Inference</h2>
+        </div>
+        
+        <div class="section-content">
+          <div class="problem-statement">
+            <h3>Problem Domain</h3>
+            <p>
+              Understanding causal relationships in observational data is fundamental to scientific discovery and decision-making. Traditional statistical methods identify correlations but fail to distinguish causation from confounding.
+            </p>
+          </div>
+          
+          <div class="research-questions">
+            <h3>Research Questions</h3>
+            <ul>
+              <li>How can we identify causal effects from observational data?</li>
+              <li>What computational frameworks enable scalable causal discovery?</li>
+              <li>How do we handle high-dimensional confounders in causal inference?</li>
+              <li>Can we combine domain knowledge with data-driven causal discovery?</li>
+            </ul>
+          </div>
+          
+          <div class="methodology">
+            <h3>Methodology</h3>
+            <p>
+              We develop computational frameworks that combine:
+            </p>
+            <ul>
+              <li><strong>Propensity Score Methods:</strong> Matching and weighting for treatment effect estimation</li>
+              <li><strong>Instrumental Variables:</strong> Leveraging natural experiments for causal identification</li>
+              <li><strong>Double Machine Learning:</strong> Combining ML with causal inference for robust estimation</li>
+              <li><strong>Causal Discovery:</strong> Structure learning algorithms for causal graph identification</li>
+            </ul>
+          </div>
+          
+          <div class="active-projects">
+            <h3>Active Projects</h3>
+            <div class="project-cards">
+              <div class="project-card">
+                <h4>CausalInference-Toolkit</h4>
+                <p>Comprehensive Python framework implementing multiple causal inference methods</p>
+                <div class="tags">
+                  <span class="tag">#Python</span>
+                  <span class="tag">#DoWhy</span>
+                  <span class="tag">#EconML</span>
+                </div>
+                <a href="https://github.com/twomathematicians-code/CausalInference-Toolkit" target="_blank" class="btn btn-secondary">View on GitHub →</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="publications-link">
+            <a href="../publications/index.html#causal-inference" class="btn">View Publications in This Area →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Structural Equation Modelling -->
+      <div class="research-section" id="sem">
+        <div class="section-header">
+          <div class="section-icon">Σ</div>
+          <h2>Structural Equation Modelling</h2>
+        </div>
+        
+        <div class="section-content">
+          <div class="problem-statement">
+            <h3>Problem Domain</h3>
+            <p>
+              Structural Equation Modelling (SEM) is a powerful statistical technique for testing hypotheses about relationships among observed and latent variables. However, traditional SEM methods exhibit systematic bias in finite samples, leading to incorrect inferences.
+            </p>
+          </div>
+          
+          <div class="research-questions">
+            <h3>Research Questions</h3>
+            <ul>
+              <li>How can we reduce bias in likelihood ratio tests for SEM?</li>
+              <li>What are the computational methods for Bartlett Correction in SEM?</li>
+              <li>How do we apply SEM bias reduction in healthcare and psychology?</li>
+              <li>Can we develop scalable algorithms for high-dimensional SEM?</li>
+            </ul>
+          </div>
+          
+          <div class="methodology">
+            <h3>Methodology</h3>
+            <p>
+              Our approach focuses on:
+            </p>
+            <ul>
+              <li><strong>Bartlett Correction:</strong> Analytical and computational methods for bias reduction</li>
+              <li><strong>Computational Statistics:</strong> Developing efficient algorithms for SEM estimation</li>
+              <li><strong>Simulation Studies:</strong> Rigorous evaluation of bias reduction methods</li>
+              <li><strong>Applied Research:</strong> Healthcare, psychology, and social science applications</li>
+            </ul>
+            
+            <div class="equation-block">
+              <p>The bias-corrected likelihood ratio statistic:</p>
+              $$\Lambda^* = \Lambda \left(1 + \frac{b}{n}\right)$$
+              <p style="font-size: 14px; margin-top: 12px; color: var(--text-muted);">
+                where $\Lambda$ is the original LRT statistic, $b$ is the bias correction term, and $n$ is sample size.
+              </p>
+            </div>
+          </div>
+          
+          <div class="active-projects">
+            <h3>Active Projects</h3>
+            <div class="project-cards">
+              <div class="project-card">
+                <h4>BiasCorrection-SEM</h4>
+                <p>R package implementing Bartlett Correction for lavaan SEM models</p>
+                <div class="tags">
+                  <span class="tag">#R</span>
+                  <span class="tag">#lavaan</span>
+                  <span class="tag">#SEM</span>
+                </div>
+                <a href="https://github.com/twomathematicians-code/BiasCorrection-SEM" target="_blank" class="btn btn-secondary">View on GitHub →</a>
+              </div>
+              
+              <div class="project-card">
+                <h4>HealthcareAnalytics-SEM</h4>
+                <p>SEM framework for healthcare outcome prediction and treatment pathway analysis</p>
+                <div class="tags">
+                  <span class="tag">#Healthcare</span>
+                  <span class="tag">#R</span>
+                  <span class="tag">#Python</span>
+                </div>
+                <a href="https://github.com/twomathematicians-code/HealthcareAnalytics-SEM" target="_blank" class="btn btn-secondary">View on GitHub →</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="publications-link">
+            <a href="../publications/index.html#sem" class="btn">View Publications in This Area →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neural-Symbolic Systems -->
+      <div class="research-section" id="neural-symbolic">
+        <div class="section-header">
+          <div class="section-icon">Ψ</div>
+          <h2>Neural-Symbolic Systems</h2>
+        </div>
+        
+        <div class="section-content">
+          <div class="problem-statement">
+            <h3>Problem Domain</h3>
+            <p>
+              Deep learning models achieve remarkable performance but lack interpretability and struggle with systematic reasoning. Symbolic AI provides reasoning capabilities but lacks learning from data. Neural-symbolic integration aims to combine the strengths of both paradigms.
+            </p>
+          </div>
+          
+          <div class="research-questions">
+            <h3>Research Questions</h3>
+            <ul>
+              <li>How can we integrate symbolic reasoning into neural network architectures?</li>
+              <li>What frameworks enable interpretable AI with learning capabilities?</li>
+              <li>How do neural-symbolic systems handle uncertainty and ambiguity?</li>
+              <li>Can we achieve human-like reasoning with neural-symbolic models?</li>
+            </ul>
+          </div>
+          
+          <div class="methodology">
+            <h3>Methodology</h3>
+            <p>
+              Our research combines:
+            </p>
+            <ul>
+              <li><strong>Neural Theorem Provers:</strong> Combining logic with neural representations</li>
+              <li><strong>Differentiable Programming:</strong> Integrating symbolic operations into deep learning</li>
+              <li><strong>Neuro-Symbolic Concept Learners:</strong> Learning symbolic concepts from data</li>
+              <li><strong>Compositional Generalization:</strong> Testing systematic reasoning capabilities</li>
+            </ul>
+          </div>
+          
+          <div class="publications-link">
+            <a href="../publications/index.html#neural-symbolic" class="btn">View Publications in This Area →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h4>Computational Mathematics Lab</h4>
+          <p>Developing rigorous computational methods for causal inference and interpretable AI.</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <nav>
+            <a href="index.html">Research</a>
+            <a href="../publications/index.html">Publications</a>
+            <a href="../projects/index.html">Projects</a>
+            <a href="../about/index.html">About</a>
+          </nav>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <p>maheshsinh1910@gmail.com</p>
+          <p>Ghent, Belgium</p>
+          <a href="https://github.com/twomathematicians-code" target="_blank">GitHub</a>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>© 2026 Computational Mathematics Lab. Research-focused design for academic credibility.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
