@@ -1,6 +1,6 @@
 # Mahesh Solanki - Portfolio Website
 
-🦞 **Data Scientist | Mathematician | AI/ML Engineer**
+**Data Scientist | Mathematician | AI/ML Engineer**
 
 A high-tech personal portfolio website showcasing expertise in Business, Finance, Healthcare, and Defense domains.
 
