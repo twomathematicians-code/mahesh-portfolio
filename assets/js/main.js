@@ -114,10 +114,10 @@ function initScrollReveal() {
 function typeEffect(element, texts, speed, pause) {
   speed = speed || 80;
   pause = pause || 2200;
-  var textIndex = 0, charIndex = 0, isDeleting = false;
+  let textIndex = 0, charIndex = 0, isDeleting = false;
 
   function tick() {
-    var current = texts[textIndex];
+    const current = texts[textIndex];
     element.textContent = current.substring(0, charIndex);
 
     if (!isDeleting) {

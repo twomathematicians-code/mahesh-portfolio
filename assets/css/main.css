@@ -1,3 +1,5 @@
+@import "pages.css";
+
 /* Computational Mathematics Lab - Design System */
 
 /* ===== CSS Variables ===== */
@@ -681,7 +683,7 @@ p > code {
   .container {
     max-width: 100%;
   }
-@import "pages.css";
+
 
 /* ===== Dark Mode ===== */
 body.dark-mode {
