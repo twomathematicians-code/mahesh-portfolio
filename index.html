@@ -1,256 +1,440 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Computational Mathematics Lab | AI Research</title>
-  <meta name="description" content="Research lab focused on causal inference, structural equation modelling, and neural-symbolic AI systems">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0x[NAME] // Cryptography Architect</title>
+    <style>
+        /* --- RESET & VARIABLES --- */
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0a0a0a;
+            --text-main: #e0e0e0;
+            --text-muted: #6b7280;
+            --accent: #00ff9d; /* Neon Green - The "Crypto" Color */
+            --accent-dim: rgba(0, 255, 157, 0.1);
+            --border: #1f2937;
+            --font-mono: 'Courier New', Courier, monospace;
+            --font-sans: system-ui, -apple-system, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- UTILITIES --- */
+        .mono { font-family: var(--font-mono); }
+        .accent { color: var(--accent); }
+        .flex { display: flex; }
+        .grid { display: grid; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-4 { gap: 1rem; }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+        }
+
+        .status-dot {
+            height: 8px;
+            width: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 10px var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1em;
+            background-color: var(--accent);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+
+        /* --- BENTO GRID (Main Content) --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- SPECIFIC CARD SIZES --- */
+        .bio-card { grid-column: span 8; }
+        .status-card { grid-column: span 4; }
+        .service-card { grid-column: span 4; }
+        .terminal-card { grid-column: span 8; }
+
+        /* --- TERMINAL STYLING --- */
+        .terminal-window {
+            background: #000;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: #d4d4d4;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-line { margin-bottom: 0.5rem; display: block; }
+        .cmd::before { content: "$ "; color: var(--accent); }
+        .output { color: var(--text-muted); }
+        .success { color: var(--accent); }
+
+        /* --- SERVICES LIST --- */
+        .service-list li {
+            list-style: none;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .service-list li:last-child { border: none; margin: 0; padding: 0; }
+        
+        .service-title { font-weight: 600; color: #fff; display: block; }
+        .service-desc { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* --- CONTACT / DECRYPT SECTION --- */
+        .contact-section {
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg-color) 100%);
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+        }
+
+        .input-group {
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        input {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 1rem;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        button {
+            margin-top: 1rem;
+            background: var(--text-main);
+            color: var(--bg-color);
+            border: none;
+            padding: 1rem 2rem;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        #decrypted-output {
+            margin-top: 1.5rem;
+            display: none;
+            font-family: var(--font-mono);
+            background: rgba(0, 255, 157, 0.05);
+            padding: 1rem;
+            border: 1px dashed var(--accent);
+            color: var(--accent);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes pulse {
+            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.7); }
+            70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0, 255, 157, 0); }
+            100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .bio-card, .status-card, .service-card, .terminal-card { grid-column: span 1; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
 </head>
 <body>
-  <div class="scroll-progress" id="scrollProgress"></div>
 
-  <!-- Navigation -->
-  <nav class="navbar">
     <div class="container">
-      <a href="index.html" class="logo">
-        <span class="lab-name">Computational Mathematics Lab</span>
-        <span class="lab-subtitle">Causal Inference • SEM • AI Research</span>
-      </a>
-      
-      <div class="nav-links">
-        <a href="research/index.html">Research</a>
-        <a href="publications/index.html">Publications</a>
-        <a href="projects/index.html">Projects</a>
-        <a href="about/index.html">About</a>
-      </div>
+        <!-- HEADER -->
+        <header class="flex justify-between items-center">
+            <div class="logo mono">
+                <span class="status-dot"></span>0xSECURE
+            </div>
+            <nav class="mono" style="font-size: 0.9rem;">
+                <span style="opacity: 0.5;">v2.4.0</span> // <a href="#" style="color:var(--text-main); text-decoration:none;">GITHUB</a>
+            </nav>
+        </header>
 
-      <div class="nav-actions">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-          <span class="theme-icon">☀️</span>
-        </button>
-        <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
-          <span class="hamburger"></span>
-        </button>
-      </div>
+        <!-- HERO -->
+        <section class="hero">
+            <h1 id="typewriter"></h1>
+            <p class="mono" style="color: var(--accent); margin-bottom: 0.5rem;">
+                > CRYPTOGRAPHY CONSULTANT & SECURITY ARCHITECT
+            </p>
+            <p>Designing post-quantum secure systems for high-risk environments. I convert the complexity of `awesome-cryptography` into business-ready solutions.</p>
+        </section>
+
+        <!-- MAIN BENTO GRID -->
+        <main class="bento-grid">
+            <!-- BIO / INTRO -->
+            <div class="card bio-card">
+                <div class="card-header mono">./profile.json</div>
+                <h3 class="mono" style="margin-bottom: 1rem; color: #fff;">Current Objective</h3>
+                <p style="color: var(--text-muted);">
+                    Specializing in Zero-Knowledge Proofs, Homomorphic Encryption, and Key Management Systems (KMS). I help startups and enterprises navigate the pitfalls of implementation without needing a PhD in math.
+                </p>
+                <div class="flex gap-4" style="margin-top: 1.5rem;">
+                    <span class="mono" style="font-size: 0.8rem; border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px;">RUST</span>
+                    <span class="mono" style="font-size: 0.8rem; border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px;">ZK-SNARKS</span>
+                    <span class="mono" style="font-size: 0.8rem; border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px;">POST-QUANTUM</span>
+                </div>
+            </div>
+
+            <!-- STATUS / AVAILABILITY -->
+            <div class="card status-card">
+                <div class="card-header mono">./system_status</div>
+                <div style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                    <div class="mono" style="font-size: 2rem; font-weight: bold; color: #fff;">OPEN</div>
+                    <div class="mono" style="color: var(--accent);">FOR NEW CONTRACTS</div>
+                    <div style="margin-top: 1rem; height: 4px; background: #333; border-radius: 2px; overflow: hidden;">
+                        <div style="width: 80%; height: 100%; background: var(--accent);"></div>
+                    </div>
+                    <div class="mono" style="font-size: 0.7rem; color: var(--text-muted); margin-top: 5px;">CAPACITY: 20%</div>
+                </div>
+            </div>
+
+            <!-- SERVICES -->
+            <div class="card service-card">
+                <div class="card-header mono">./services</div>
+                <ul class="service-list">
+                    <li>
+                        <span class="service-title">Crypto-Auditing</span>
+                        <span class="service-desc">Deep code review against NIST guidelines.</span>
+                    </li>
+                    <li>
+                        <span class="service-title">ZK-Implementation</span>
+                        <span class="service-desc">Privacy-preserving identity layers.</span>
+                    </li>
+                    <li>
+                        <span class="service-title">KMS Architecture</span>
+                        <span class="service-desc">Designing secure key lifecycle management.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- TERMINAL / LATEST WORK -->
+            <div class="card terminal-card">
+                <div class="card-header mono">./terminal --watch</div>
+                <div class="terminal-window" id="terminal">
+                    <span class="terminal-line cmd">git log --oneline -n 5</span>
+                    <span class="terminal-line output">a3f12c Implement Kyber-768 key exchange</span>
+                    <span class="terminal-line output">b2d991 Fix padding oracle in auth module</span>
+                    <span class="terminal-line output">c1a003 Update libsodium to latest stable</span>
+                    <span class="terminal-line output">d4e115 Refactor ZK-Proof verifier circuit</span>
+                    <span class="terminal-line output">f5a992 Initialize secure-messaging-api</span>
+                    <br>
+                    <span class="terminal-line cmd">npm run build</span>
+                    <span class="terminal-line success">✔ Build successful. Hash: 8x9a...2f1</span>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- CONTACT / DECRYPT -->
+        <section class="contact-section">
+            <div class="card" style="border-style: dashed; border-color: var(--border);">
+                <div class="card-header mono">./establish_connection</div>
+                <h2 style="margin-bottom: 1rem;">Secure Channel</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                    To initiate a handshake, please verify you are not a bot.
+                </p>
+                
+                <div class="input-group">
+                    <input type="text" placeholder="ENTER PASSPHRASE" id="passphrase">
+                </div>
+                
+                <button onclick="decryptContact()">DECRYPT CREDENTIALS</button>
+                
+                <div id="decrypted-output">
+                    > DECRYPTION SUCCESSFUL...<br><br>
+                    EMAIL: <a href="mailto:hello@cipherflow.com" style="color: white;">hello@cipherflow.com</a><br>
+                    PGP KEY: <span class="mono">0x4A91...88F2</span><br>
+                    SIGNAL: +1 (555) 019-2834
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; margin-top: 3rem; padding-bottom: 2rem; color: var(--text-muted); font-size: 0.8rem; font-family: var(--font-mono);">
+            SYSTEM ID: 994-ALPHA // ENCRYPTED CONNECTION ESTABLISHED
+        </footer>
     </div>
-  </nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <h1>Computational Mathematics Lab</h1>
-        <p class="subtitle">Research Focus: <span class="typing-text"></span><span class="typing-cursor"></span></p>
-        <p class="mission">
-          Developing computational methods for causal inference, bias reduction, and interpretable AI systems with mathematical rigor.
-        </p>
-        
-        <div class="current-focus reveal">
-          <h3>Currently Working On</h3>
-          <ul>
-            <li>Bias reduction in SEM likelihood ratio tests</li>
-            <li>Causal inference frameworks for healthcare analytics</li>
-            <li>Neural-symbolic integration for interpretable AI</li>
-          </ul>
-          <span class="updated">Last updated: April 2026</span>
-        </div>
-      </div>
-    </div>
-  </section>
+    <script>
+        // --- TYPEWRITER EFFECT ---
+        const textToType = "Building Trust in Zero-Trust Environments.";
+        const typeContainer = document.getElementById('typewriter');
+        let typeIndex = 0;
 
-  <!-- Research Areas -->
-  <section class="research-areas" id="research">
-    <div class="container">
-      <h2>Research Areas</h2>
-      
-      <div class="grid-3">
-        <a href="research/causal-inference.html" class="research-card reveal">
-          <div class="card-icon">∂</div>
-          <h3>Causal Inference</h3>
-          <p>Developing computational frameworks for causal discovery and inference in high-dimensional observational data.</p>
-          <div class="card-tags">
-            <span class="tag">#Causal-ML</span>
-            <span class="tag">#DoWhy</span>
-          </div>
-          <span class="card-link">View Research →</span>
-        </a>
-        
-        <a href="research/sem.html" class="research-card reveal reveal-delay-1">
-          <div class="card-icon">Σ</div>
-          <h3>Structural Equation Modelling</h3>
-          <p>Bias reduction methods for SEM with applications in psychology, healthcare, and social sciences.</p>
-          <div class="card-tags">
-            <span class="tag">#SEM</span>
-            <span class="tag">#lavaan</span>
-          </div>
-          <span class="card-link">View Research →</span>
-        </a>
-        
-        <a href="research/neural-symbolic.html" class="research-card reveal reveal-delay-2">
-          <div class="card-icon">Ψ</div>
-          <h3>Neural-Symbolic Systems</h3>
-          <p>Integrating symbolic reasoning with neural networks for interpretable and robust AI systems.</p>
-          <div class="card-tags">
-            <span class="tag">#Neural-Symbolic</span>
-            <span class="tag">#Interpretable-AI</span>
-          </div>
-          <span class="card-link">View Research →</span>
-        </a>
-      </div>
-    </div>
-  </section>
+        function typeWriter() {
+            if (typeIndex < textToType.length) {
+                typeContainer.innerHTML += textToType.charAt(typeIndex);
+                typeIndex++;
+                setTimeout(typeWriter, 50); // Typing speed
+            } else {
+                typeContainer.innerHTML += '<span class="cursor"></span>';
+            }
+        }
 
-  <!-- Featured Research -->
-  <section class="featured-research">
-    <div class="container">
-      <h2>Featured Research</h2>
-      
-      <div class="grid-2">
-        <div class="featured-main reveal">
-          <span class="category-badge">Research</span>
-          <h3>Reduction of Bias in Likelihood Ratio Tests for Structural Equation Modelling</h3>
-          <p class="abstract">
-            This paper presents a computational framework for reducing systematic bias in likelihood ratio tests within SEM, achieving 23% reduction in Type I error rates across simulation studies.
-          </p>
-          <div class="tags">
-            <span class="tag">#SEM</span>
-            <span class="tag">#Causal-Inference</span>
-            <span class="tag">#Computational-Statistics</span>
-          </div>
-          <a href="research/sem-bias-reduction.html" class="btn">Read Paper →</a>
-        </div>
-        
-        <div class="featured-list reveal reveal-delay-1">
-          <div class="featured-item">
-            <h4>CausalInference-Toolkit</h4>
-            <p>Comprehensive framework for causal discovery and inference</p>
-            <span class="tag">#Causal-ML</span>
-          </div>
-          
-          <div class="featured-item">
-            <h4>HealthcareAnalytics-SEM</h4>
-            <p>SEM framework for healthcare outcome prediction</p>
-            <span class="tag">#Healthcare</span>
-          </div>
-          
-          <div class="featured-item">
-            <h4>FinancialRisk-QuantLib</h4>
-            <p>Quantitative finance toolkit with causal methods</p>
-            <span class="tag">#Finance</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        // --- DECRYPT FUNCTION ---
+        function decryptContact() {
+            const input = document.getElementById('passphrase');
+            const output = document.getElementById('decrypted-output');
+            
+            // Simple visual logic: accept any input, simulate processing
+            if(input.value.length > 0) {
+                const btn = document.querySelector('button');
+                const originalText = btn.innerText;
+                
+                btn.innerText = "PROCESSING HASHES...";
+                btn.style.opacity = "0.7";
+                
+                setTimeout(() => {
+                    output.style.display = 'block';
+                    btn.innerText = "VERIFIED";
+                    btn.style.backgroundColor = "var(--accent)";
+                    btn.style.color = "black";
+                    input.disabled = true;
+                }, 800);
+            } else {
+                input.style.borderColor = "red";
+                setTimeout(() => input.style.borderColor = "var(--border)", 500);
+            }
+        }
 
-  <!-- Publications Preview -->
-  <section class="publications-preview">
-    <div class="container">
-      <h2>Recent Publications</h2>
-      
-      <div class="publications-list">
-        <div class="publication-item">
-          <h4>Reduction of Bias in Likelihood Ratio Tests for SEM</h4>
-          <p class="authors">Mahesh Solanki</p>
-          <p class="venue">Journal of Computational Statistics | 2026</p>
-          <div class="tags">
-            <span class="tag">#SEM</span>
-            <span class="tag">#Bias-Reduction</span>
-          </div>
-        </div>
-        
-        <div class="publication-item">
-          <h4>Causal Discovery in High-Dimensional Observational Data</h4>
-          <p class="authors">Mahesh Solanki</p>
-          <p class="venue">Conference on Neural Information Processing Systems | 2025</p>
-          <div class="tags">
-            <span class="tag">#Causal-Inference</span>
-            <span class="tag">#High-Dimensional</span>
-          </div>
-        </div>
-      </div>
-      
-      <a href="publications/index.html" class="btn btn-secondary">View All Publications →</a>
-    </div>
-  </section>
+        // --- TERMINAL RANDOMIZER ---
+        function updateTerminal() {
+            const terminal = document.getElementById('terminal');
+            const processes = [
+                "Scanning for weak ciphers...",
+                "Rotating elliptic curve keys...",
+                "Verifying ZK-SNARK proof...",
+                "Handshake initiated (TLS 1.3)...",
+                "Auditing memory allocation..."
+            ];
+            const randomProcess = processes[Math.floor(Math.random() * processes.length)];
+            
+            // Occasionally add a new line to make it look alive
+            if(Math.random() > 0.7) {
+                const newLine = document.createElement('span');
+                newLine.className = 'terminal-line cmd';
+                newLine.style.color = 'var(--text-muted)';
+                newLine.innerText = `> ${randomProcess}`;
+                terminal.appendChild(newLine);
+                
+                // Keep it clean
+                if(terminal.childElementCount > 12) {
+                    terminal.removeChild(terminal.children[1]); // Keep the header
+                }
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+        }
 
-  <!-- Current Work Timeline -->
-  <section class="current-work">
-    <div class="container">
-      <h2>What We're Working On Now</h2>
-      
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">Apr 2026</div>
-          <div class="timeline-content">
-            <h4>SEM Bias Reduction Paper</h4>
-            <p>Finalizing computational framework for Bartlett Correction in SEM</p>
-            <span class="status ongoing">In Progress</span>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <div class="timeline-date">Mar 2026</div>
-          <div class="timeline-content">
-            <h4>CausalInference-Toolkit v2.0</h4>
-            <p>Released comprehensive causal inference framework</p>
-            <span class="status completed">Completed</span>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <div class="timeline-date">Jan 2026</div>
-          <div class="timeline-content">
-            <h4>Healthcare Analytics Project</h4>
-            <p>Started SEM-based healthcare outcome prediction system</p>
-            <span class="status ongoing">Active</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-section">
-          <h4>Computational Mathematics Lab</h4>
-          <p>Developing rigorous computational methods for causal inference and interpretable AI.</p>
-        </div>
-        
-        <div class="footer-section">
-          <h4>Quick Links</h4>
-          <nav>
-            <a href="research/index.html">Research</a>
-            <a href="publications/index.html">Publications</a>
-            <a href="projects/index.html">Projects</a>
-            <a href="about/index.html">About</a>
-          </nav>
-        </div>
-        
-        <div class="footer-section">
-          <h4>Contact</h4>
-          <p>maheshsinh1910@gmail.com</p>
-          <p>Ghent, Belgium</p>
-          <a href="https://github.com/twomathematicians-code" target="_blank">GitHub</a>
-        </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <p>© 2026 Computational Mathematics Lab. Research-focused design for academic credibility.</p>
-      </div>
-    </div>
-  </footer>
-
-  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="assets/js/main.js"></script>
+        // Initialize
+        window.onload = function() {
+            typeWriter();
+            setInterval(updateTerminal, 2000);
+        };
+    </script>
 </body>
 </html>
