@@ -1,440 +1,1182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>0x[NAME] // Cryptography Architect</title>
-    <style>
-        /* --- RESET & VARIABLES --- */
-        :root {
-            --bg-color: #050505;
-            --card-bg: #0a0a0a;
-            --text-main: #e0e0e0;
-            --text-muted: #6b7280;
-            --accent: #00ff9d; /* Neon Green - The "Crypto" Color */
-            --accent-dim: rgba(0, 255, 157, 0.1);
-            --border: #1f2937;
-            --font-mono: 'Courier New', Courier, monospace;
-            --font-sans: system-ui, -apple-system, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahesh Solanki — Computational Scientist & Mathematician</title>
+<meta name="description" content="Computational Mathematics Lab. Bridging pure mathematics and applied machine learning to build rigorous, scalable AI systems.">
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap'>
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+<!-- MathJax for LaTeX support -->
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 
-        /* --- UTILITIES --- */
-        .mono { font-family: var(--font-mono); }
-        .accent { color: var(--accent); }
-        .flex { display: flex; }
-        .grid { display: grid; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .gap-4 { gap: 1rem; }
+<script src='https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/lenis@1.3.13/dist/lenis.min.js'></script>
 
-        /* --- LAYOUT --- */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-            min-height: 100vh;
-        }
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* --- HEADER --- */
-        header {
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-            margin-bottom: 2rem;
-        }
+:root {
+  --bg: #14110E;
+  --surface: #1E1A14;
+  --surface-2: #28221C;
+  --text: #F4F0E6;
+  --text-dim: rgba(244, 240, 230, 0.6);
+  --text-dimmer: rgba(244, 240, 230, 0.35);
+  --accent: #B5471E;
+  --accent-light: #D2541E;
+  --accent-dim: rgba(181, 71, 30, 0.15);
+  --serif: 'Cormorant Garamond', serif;
+  --sans: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --ease-quiet: cubic-bezier(.22, 1, .36, 1);
+  --ease-emphasis: cubic-bezier(.16, 1, .3, 1);
+}
 
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: -0.05em;
-        }
+html { scroll-behavior: auto; }
 
-        .status-dot {
-            height: 8px;
-            width: 8px;
-            background-color: var(--accent);
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 10px var(--accent);
-            animation: pulse 2s infinite;
-        }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.6;
+  font-size: 16px;
+  overflow-x: hidden;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
 
-        /* --- HERO SECTION --- */
-        .hero {
-            margin-bottom: 3rem;
-        }
+@media (pointer: coarse) { body { cursor: auto; } }
+::selection { background: var(--accent); color: var(--text); }
+img { max-width: 100%; display: block; }
 
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(244, 240, 230, 0.012) 2px, rgba(244, 240, 230, 0.012) 3px);
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: overlay;
+}
 
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 600px;
-        }
+.cursor-canvas {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
+}
 
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1em;
-            background-color: var(--accent);
-            animation: blink 1s step-end infinite;
-            vertical-align: middle;
-        }
+/* Navigation */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  mix-blend-mode: difference;
+  color: var(--text);
+}
 
-        /* --- BENTO GRID (Main Content) --- */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
+.nav__name {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-style: italic;
+}
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
+.nav__links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: inherit;
+  text-decoration: none;
+  margin-left: 2rem;
+  transition: opacity 0.3s var(--ease-quiet);
+  opacity: 0.7;
+}
 
-        .card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.05);
-            transform: translateY(-2px);
-        }
+.nav__links a:hover { opacity: 1; }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 3;
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
-        /* --- SPECIFIC CARD SIZES --- */
-        .bio-card { grid-column: span 8; }
-        .status-card { grid-column: span 4; }
-        .service-card { grid-column: span 4; }
-        .terminal-card { grid-column: span 8; }
+.hero__intro {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  opacity: 0;
+}
 
-        /* --- TERMINAL STYLING --- */
-        .terminal-window {
-            background: #000;
-            padding: 1rem;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: #d4d4d4;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
+.hero__name {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(4rem, 15vw, 14rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  perspective: 800px;
+}
 
-        .terminal-line { margin-bottom: 0.5rem; display: block; }
-        .cmd::before { content: "$ "; color: var(--accent); }
-        .output { color: var(--text-muted); }
-        .success { color: var(--accent); }
+.hero__name span {
+  display: inline-block;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
 
-        /* --- SERVICES LIST --- */
-        .service-list li {
-            list-style: none;
-            margin-bottom: 0.8rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .service-list li:last-child { border: none; margin: 0; padding: 0; }
-        
-        .service-title { font-weight: 600; color: #fff; display: block; }
-        .service-desc { font-size: 0.9rem; color: var(--text-muted); }
+.hero__name--last {
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 500;
+}
 
-        /* --- CONTACT / DECRYPT SECTION --- */
-        .contact-section {
-            background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg-color) 100%);
-            border-top: 1px solid var(--border);
-            padding-top: 2rem;
-        }
+.hero__sub {
+  margin-top: 3rem;
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--text-dim);
+  max-width: 800px;
+  opacity: 0;
+  line-height: 1.3;
+}
 
-        .input-group {
-            position: relative;
-            margin-top: 1rem;
-        }
+.hero__sub em {
+  color: var(--accent-light);
+  font-style: normal;
+  border-bottom: 1px solid var(--accent);
+}
 
-        input {
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--border);
-            padding: 1rem;
-            color: var(--text-main);
-            font-family: var(--font-mono);
-            font-size: 1rem;
-            border-radius: 4px;
-        }
+/* Section Base */
+.section {
+  padding: 8rem 2rem;
+  position: relative;
+  z-index: 3;
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
-        input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+.section__head {
+  margin-bottom: 5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  border-bottom: 1px solid rgba(244, 240, 230, 0.1);
+  padding-bottom: 2rem;
+}
 
-        button {
-            margin-top: 1rem;
-            background: var(--text-main);
-            color: var(--bg-color);
-            border: none;
-            padding: 1rem 2rem;
-            font-family: var(--font-mono);
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
+.section__num {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+}
 
-        button:hover {
-            background: var(--accent);
-            box-shadow: 0 0 15px var(--accent);
-        }
+.section__title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--text);
+  font-style: italic;
+}
 
-        #decrypted-output {
-            margin-top: 1.5rem;
-            display: none;
-            font-family: var(--font-mono);
-            background: rgba(0, 255, 157, 0.05);
-            padding: 1rem;
-            border: 1px dashed var(--accent);
-            color: var(--accent);
-        }
+.section__title em {
+  color: var(--accent);
+  font-style: normal;
+}
 
-        /* --- ANIMATIONS --- */
-        @keyframes pulse {
-            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.7); }
-            70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0, 255, 157, 0); }
-            100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
-        }
+/* About */
+.about__text {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.4;
+  color: var(--text);
+  max-width: 900px;
+  margin-bottom: 5rem;
+}
 
-        @keyframes blink { 50% { opacity: 0; } }
+.about__text em {
+  color: var(--accent);
+  font-style: normal;
+}
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .bento-grid { grid-template-columns: 1fr; }
-            .bio-card, .status-card, .service-card, .terminal-card { grid-column: span 1; }
-            h1 { font-size: 2.5rem; }
-        }
-    </style>
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  border-top: 1px solid rgba(244, 240, 230, 0.1);
+  padding-top: 3rem;
+}
+
+.stat__num {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  color: var(--accent);
+  font-weight: 500;
+  display: block;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat__label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* Projects */
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 10rem;
+}
+
+.project {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.project:nth-child(even) .project__content {
+  order: 2;
+}
+
+.project__visual {
+  aspect-ratio: 4/5;
+  background: var(--surface);
+  border: 1px solid rgba(181, 71, 30, 0.2);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project__visual svg {
+  width: 80%;
+  height: 80%;
+}
+
+.project__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.project__num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.project__title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.project__title em {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.project__desc {
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  margin-bottom: 2rem;
+}
+
+.project__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  border: 1px solid rgba(244, 240, 230, 0.15);
+  padding: 0.4rem 0.8rem;
+  border-radius: 2px;
+}
+
+.project__meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(244, 240, 230, 0.1);
+}
+
+.meta__item .label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dimmer);
+  margin-bottom: 0.4rem;
+}
+
+.meta__item .value {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+
+/* Skills Desk */
+.skills__desk {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 650px;
+  background: var(--surface);
+  border: 1px solid rgba(181, 71, 30, 0.15);
+  overflow: hidden;
+  touch-action: none;
+}
+
+.skills__desk::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(181, 71, 30, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(181, 71, 30, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.skills__hint {
+  position: absolute;
+  bottom: 1.5rem; left: 1.5rem;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dimmer);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.skills__hint span { color: var(--accent); }
+
+.skill-card {
+  position: absolute;
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  padding: 1.5rem;
+  cursor: none;
+  user-select: none;
+  touch-action: none;
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.8);
+  transition: box-shadow 0.4s var(--ease-quiet);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+@media (pointer: coarse) { .skill-card { cursor: grab; } }
+.skill-card.is-dragging { cursor: none; box-shadow: 0 30px 60px -10px rgba(0,0,0,0.9); z-index: 10; }
+
+.skill-card__head {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  opacity: 0.7;
+}
+
+.skill-card__title {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.skill-card__list {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.8;
+  color: var(--text-dim);
+}
+
+/* Journey (Horizontal Scroll) */
+.journey {
+  padding: 8rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.journey__head {
+  padding: 0 2rem;
+  margin-bottom: 5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  border-bottom: 1px solid rgba(244, 240, 230, 0.1);
+  padding-bottom: 2rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.journey__track {
+  display: flex;
+  gap: 2rem;
+  padding: 0 4rem;
+  will-change: transform;
+}
+
+.timeline-card {
+  flex-shrink: 0;
+  width: 400px;
+  height: 500px;
+  background: var(--surface);
+  border: 1px solid rgba(181, 71, 30, 0.2);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.timeline-card__year {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+}
+
+.timeline-card__title {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-card__org {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.timeline-card__desc {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  flex: 1;
+}
+
+.timeline-card__footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(244, 240, 230, 0.1);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dimmer);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Contact */
+.contact {
+  text-align: center;
+  padding: 12rem 2rem 6rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact__pre {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.contact__email {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 6vw, 5rem);
+  color: var(--text);
+  text-decoration: none;
+  display: inline-block;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.5rem;
+  margin-bottom: 4rem;
+  transition: color 0.3s var(--ease-quiet);
+}
+
+.contact__email:hover { color: var(--accent); }
+
+.contact__links {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.contact__link {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s var(--ease-quiet);
+}
+
+.contact__link:hover { color: var(--accent); }
+
+/* Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s var(--ease-quiet), transform 1.2s var(--ease-quiet);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .cursor-canvas { display: none; }
+}
+
+@media (max-width: 900px) {
+  .project { grid-template-columns: 1fr; gap: 3rem; }
+  .project:nth-child(even) .project__content { order: 0; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .nav__links a { margin-left: 1rem; font-size: 10px; }
+  .skills__desk { height: 900px; }
+  .timeline-card { width: 320px; height: 420px; padding: 2rem; }
+  .section { padding: 5rem 1.5rem; }
+  .journey__head { padding: 0 1.5rem; }
+}
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- HEADER -->
-        <header class="flex justify-between items-center">
-            <div class="logo mono">
-                <span class="status-dot"></span>0xSECURE
-            </div>
-            <nav class="mono" style="font-size: 0.9rem;">
-                <span style="opacity: 0.5;">v2.4.0</span> // <a href="#" style="color:var(--text-main); text-decoration:none;">GITHUB</a>
-            </nav>
-        </header>
+<canvas class="cursor-canvas" id="cursor-canvas"></canvas>
 
-        <!-- HERO -->
-        <section class="hero">
-            <h1 id="typewriter"></h1>
-            <p class="mono" style="color: var(--accent); margin-bottom: 0.5rem;">
-                > CRYPTOGRAPHY CONSULTANT & SECURITY ARCHITECT
-            </p>
-            <p>Designing post-quantum secure systems for high-risk environments. I convert the complexity of `awesome-cryptography` into business-ready solutions.</p>
-        </section>
+<header class="nav">
+  <span class="nav__name">Computational Math Lab</span>
+  <nav class="nav__links">
+    <a href="#work">Work</a>
+    <a href="#skills">Stack</a>
+    <a href="#journey">Journey</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-        <!-- MAIN BENTO GRID -->
-        <main class="bento-grid">
-            <!-- BIO / INTRO -->
-            <div class="card bio-card">
-                <div class="card-header mono">./profile.json</div>
-                <h3 class="mono" style="margin-bottom: 1rem; color: #fff;">Current Objective</h3>
-                <p style="color: var(--text-muted);">
-                    Specializing in Zero-Knowledge Proofs, Homomorphic Encryption, and Key Management Systems (KMS). I help startups and enterprises navigate the pitfalls of implementation without needing a PhD in math.
-                </p>
-                <div class="flex gap-4" style="margin-top: 1.5rem;">
-                    <span class="mono" style="font-size: 0.8rem; border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px;">RUST</span>
-                    <span class="mono" style="font-size: 0.8rem; border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px;">ZK-SNARKS</span>
-                    <span class="mono" style="font-size: 0.8rem; border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px;">POST-QUANTUM</span>
-                </div>
-            </div>
+<!-- ========== HERO ========== -->
+<section class="hero" id="hero">
+  <div class="hero__intro">Computational Scientist · Mathematician · Ghent, BE</div>
+  <h1 class="hero__name">
+    <div data-word="MAHESH"><span>M</span><span>A</span><span>H</span><span>E</span><span>S</span><span>H</span></div>
+    <div class="hero__name--last" data-word="SOLANKI"><span>S</span><span>O</span><span>L</span><span>A</span><span>N</span><span>K</span><span>I</span></div>
+  </h1>
+  <p class="hero__sub">Bridging <em>pure mathematics</em> and applied machine learning to build rigorous, scalable AI systems.</p>
+</section>
 
-            <!-- STATUS / AVAILABILITY -->
-            <div class="card status-card">
-                <div class="card-header mono">./system_status</div>
-                <div style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
-                    <div class="mono" style="font-size: 2rem; font-weight: bold; color: #fff;">OPEN</div>
-                    <div class="mono" style="color: var(--accent);">FOR NEW CONTRACTS</div>
-                    <div style="margin-top: 1rem; height: 4px; background: #333; border-radius: 2px; overflow: hidden;">
-                        <div style="width: 80%; height: 100%; background: var(--accent);"></div>
-                    </div>
-                    <div class="mono" style="font-size: 0.7rem; color: var(--text-muted); margin-top: 5px;">CAPACITY: 20%</div>
-                </div>
-            </div>
+<!-- ========== ABOUT ========== -->
+<section class="section reveal" id="about">
+  <div class="section__head">
+    <span class="section__num">01 ——</span>
+    <h2 class="section__title">The <em>Lab</em></h2>
+  </div>
 
-            <!-- SERVICES -->
-            <div class="card service-card">
-                <div class="card-header mono">./services</div>
-                <ul class="service-list">
-                    <li>
-                        <span class="service-title">Crypto-Auditing</span>
-                        <span class="service-desc">Deep code review against NIST guidelines.</span>
-                    </li>
-                    <li>
-                        <span class="service-title">ZK-Implementation</span>
-                        <span class="service-desc">Privacy-preserving identity layers.</span>
-                    </li>
-                    <li>
-                        <span class="service-title">KMS Architecture</span>
-                        <span class="service-desc">Designing secure key lifecycle management.</span>
-                    </li>
-                </ul>
-            </div>
+  <p class="about__text">
+    The Computational Mathematics Lab bridges the gap between theoretical rigor and applied intelligence. With over <em>7 years of experience</em> in data analytics, big data engineering, and causal inference, we turn complex, high-volume data into production-ready ML systems.
+  </p>
 
-            <!-- TERMINAL / LATEST WORK -->
-            <div class="card terminal-card">
-                <div class="card-header mono">./terminal --watch</div>
-                <div class="terminal-window" id="terminal">
-                    <span class="terminal-line cmd">git log --oneline -n 5</span>
-                    <span class="terminal-line output">a3f12c Implement Kyber-768 key exchange</span>
-                    <span class="terminal-line output">b2d991 Fix padding oracle in auth module</span>
-                    <span class="terminal-line output">c1a003 Update libsodium to latest stable</span>
-                    <span class="terminal-line output">d4e115 Refactor ZK-Proof verifier circuit</span>
-                    <span class="terminal-line output">f5a992 Initialize secure-messaging-api</span>
-                    <br>
-                    <span class="terminal-line cmd">npm run build</span>
-                    <span class="terminal-line success">✔ Build successful. Hash: 8x9a...2f1</span>
-                </div>
-            </div>
+  <div class="stats">
+    <div class="stat">
+      <span class="stat__num">7+</span>
+      <span class="stat__label">Years Experience</span>
+    </div>
+    <div class="stat">
+      <span class="stat__num">2M+</span>
+      <span class="stat__label">Records Processed</span>
+    </div>
+    <div class="stat">
+      <span class="stat__num">87%</span>
+      <span class="stat__label">Model Accuracy</span>
+    </div>
+    <div class="stat">
+      <span class="stat__num">8x</span>
+      <span class="stat__label">Pipeline Speedup</span>
+    </div>
+  </div>
+</section>
 
-        </main>
+<!-- ========== WORK ========== -->
+<section class="section reveal" id="work">
+  <div class="section__head">
+    <span class="section__num">02 ——</span>
+    <h2 class="section__title">Selected <em>Work</em></h2>
+  </div>
 
-        <!-- CONTACT / DECRYPT -->
-        <section class="contact-section">
-            <div class="card" style="border-style: dashed; border-color: var(--border);">
-                <div class="card-header mono">./establish_connection</div>
-                <h2 style="margin-bottom: 1rem;">Secure Channel</h2>
-                <p style="color: var(--text-muted); margin-bottom: 1rem;">
-                    To initiate a handshake, please verify you are not a bot.
-                </p>
-                
-                <div class="input-group">
-                    <input type="text" placeholder="ENTER PASSPHRASE" id="passphrase">
-                </div>
-                
-                <button onclick="decryptContact()">DECRYPT CREDENTIALS</button>
-                
-                <div id="decrypted-output">
-                    > DECRYPTION SUCCESSFUL...<br><br>
-                    EMAIL: <a href="mailto:hello@cipherflow.com" style="color: white;">hello@cipherflow.com</a><br>
-                    PGP KEY: <span class="mono">0x4A91...88F2</span><br>
-                    SIGNAL: +1 (555) 019-2834
-                </div>
-            </div>
-        </section>
-
-        <footer style="text-align: center; margin-top: 3rem; padding-bottom: 2rem; color: var(--text-muted); font-size: 0.8rem; font-family: var(--font-mono);">
-            SYSTEM ID: 994-ALPHA // ENCRYPTED CONNECTION ESTABLISHED
-        </footer>
+  <div class="projects">
+    <!-- Project 1 -->
+    <div class="project">
+      <div class="project__visual">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#B5471E" stroke-width="1" fill="none" stroke-linecap="square">
+            <polygon points="100,15 175,57.5 175,142.5 100,185 25,142.5 25,57.5" />
+            <line x1="100" y1="15" x2="100" y2="185" />
+            <line x1="25" y1="57.5" x2="175" y2="142.5" />
+            <line x1="175" y1="57.5" x2="25" y2="142.5" />
+            <line x1="25" y1="100" x2="175" y2="100" />
+            <circle cx="100" cy="100" r="15" />
+            <circle cx="100" cy="100" r="5" fill="#B5471E" stroke="none" />
+            <circle cx="62.5" cy="78.125" r="4" fill="#B5471E" stroke="none" />
+            <circle cx="137.5" cy="78.125" r="4" fill="#B5471E" stroke="none" />
+            <circle cx="62.5" cy="121.875" r="4" fill="#B5471E" stroke="none" />
+            <circle cx="137.5" cy="121.875" r="4" fill="#B5471E" stroke="none" />
+            <line x1="62.5" y1="78.125" x2="137.5" y2="121.875" stroke-dasharray="2,2" />
+            <line x1="137.5" y1="78.125" x2="62.5" y2="121.875" stroke-dasharray="2,2" />
+          </g>
+        </svg>
+      </div>
+      <div class="project__content">
+        <span class="project__num">PROJECT 01 — 2024</span>
+        <h3 class="project__title">Knee Osteoarthritis <em>Detection</em></h3>
+        <p class="project__desc">Built a binary classifier on 1,055 knee X-rays using ResNet50 transfer learning in PyTorch. Achieved 87% accuracy and 0.92 ROC-AUC. Validated model decisions using Grad-CAM heatmaps to ensure clinical alignment with radiologist assessments.</p>
+        <div class="project__tags">
+          <span class="tag">PyTorch</span>
+          <span class="tag">ResNet50</span>
+          <span class="tag">Grad-CAM</span>
+          <span class="tag">Medical AI</span>
+        </div>
+        <div class="project__meta">
+          <div class="meta__item">
+            <span class="label">Accuracy</span>
+            <span class="value">87%</span>
+          </div>
+          <div class="meta__item">
+            <span class="label">Dataset</span>
+            <span class="value">1,055 X-rays</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script>
-        // --- TYPEWRITER EFFECT ---
-        const textToType = "Building Trust in Zero-Trust Environments.";
-        const typeContainer = document.getElementById('typewriter');
-        let typeIndex = 0;
+    <!-- Project 2 -->
+    <div class="project">
+      <div class="project__visual">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#B5471E" stroke-width="1.2" fill="none">
+            <!-- DAG nodes and edges -->
+            <line x1="40" y1="100" x2="100" y2="40" />
+            <line x1="40" y1="100" x2="100" y2="160" />
+            <line x1="100" y1="40" x2="160" y2="100" />
+            <line x1="100" y1="160" x2="160" y2="100" />
+            <line x1="100" y1="40" x2="100" y2="160" stroke-dasharray="4,4" />
+            <circle cx="40" cy="100" r="10" fill="#14110E" />
+            <circle cx="100" cy="40" r="10" fill="#14110E" />
+            <circle cx="100" cy="160" r="10" fill="#14110E" />
+            <circle cx="160" cy="100" r="10" fill="#B5471E" />
+            <text x="35" y="105" fill="#F4F0E6" font-size="8" font-family="monospace">Z</text>
+            <text x="95" y="45" fill="#F4F0E6" font-size="8" font-family="monospace">X</text>
+            <text x="95" y="165" fill="#F4F0E6" font-size="8" font-family="monospace">W</text>
+            <text x="155" y="105" fill="#F4F0E6" font-size="8" font-family="monospace">Y</text>
+          </g>
+        </svg>
+      </div>
+      <div class="project__content">
+        <span class="project__num">PROJECT 02 — 2024</span>
+        <h3 class="project__title">Causal Effect <em>Estimation</em></h3>
+        <p class="project__desc">Estimated treatment effects using DAG-based causal identification via DoWhy and EconML. Implemented propensity score matching and Double Machine Learning to eliminate confounding bias. Validated robustness across multiple simulated environments.</p>
+        <div class="project__tags">
+          <span class="tag">DoWhy</span>
+          <span class="tag">EconML</span>
+          <span class="tag">Double ML</span>
+          <span class="tag">NetworkX</span>
+        </div>
+        <div class="project__meta">
+          <div class="meta__item">
+            <span class="label">Method</span>
+            <span class="value">DAG / DML</span>
+          </div>
+          <div class="meta__item">
+            <span class="label">Validation</span>
+            <span class="value">Robustness Checked</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        function typeWriter() {
-            if (typeIndex < textToType.length) {
-                typeContainer.innerHTML += textToType.charAt(typeIndex);
-                typeIndex++;
-                setTimeout(typeWriter, 50); // Typing speed
-            } else {
-                typeContainer.innerHTML += '<span class="cursor"></span>';
-            }
-        }
+    <!-- Project 3 -->
+    <div class="project">
+      <div class="project__visual">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#B5471E" stroke-width="1" fill="none">
+            <!-- Vector grid -->
+            <line x1="20" y1="20" x2="20" y2="180" />
+            <line x1="60" y1="20" x2="60" y2="180" />
+            <line x1="100" y1="20" x2="100" y2="180" />
+            <line x1="140" y1="20" x2="140" y2="180" />
+            <line x1="180" y1="20" x2="180" y2="180" />
+            <line x1="20" y1="20" x2="180" y2="20" />
+            <line x1="20" y1="60" x2="180" y2="60" />
+            <line x1="20" y1="100" x2="180" y2="100" />
+            <line x1="20" y1="140" x2="180" y2="140" />
+            <line x1="20" y1="180" x2="180" y2="180" />
+            <circle cx="40" cy="40" r="3" fill="#B5471E" />
+            <circle cx="80" cy="120" r="3" fill="#B5471E" />
+            <circle cx="160" cy="80" r="3" fill="#B5471E" />
+            <circle cx="120" cy="160" r="3" fill="#B5471E" />
+            <circle cx="120" cy="40" r="3" fill="#B5471E" />
+          </g>
+        </svg>
+      </div>
+      <div class="project__content">
+        <span class="project__num">PROJECT 03 — 2024</span>
+        <h3 class="project__title">Retrieval-Augmented <em>Generation</em></h3>
+        <p class="project__desc">Built an open-source RAG system for textbook QA using LlamaIndex and HuggingFace embeddings. Engineered a FAISS vector index for fast retrieval and implemented a cross-encoder reranker to maximize semantic precision and reduce hallucinations.</p>
+        <div class="project__tags">
+          <span class="tag">LlamaIndex</span>
+          <span class="tag">FAISS</span>
+          <span class="tag">HuggingFace</span>
+          <span class="tag">NLP</span>
+        </div>
+        <div class="project__meta">
+          <div class="meta__item">
+            <span class="label">Index</span>
+            <span class="value">FAISS</span>
+          </div>
+          <div class="meta__item">
+            <span class="label">Reranker</span>
+            <span class="value">Cross-Encoder</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        // --- DECRYPT FUNCTION ---
-        function decryptContact() {
-            const input = document.getElementById('passphrase');
-            const output = document.getElementById('decrypted-output');
-            
-            // Simple visual logic: accept any input, simulate processing
-            if(input.value.length > 0) {
-                const btn = document.querySelector('button');
-                const originalText = btn.innerText;
-                
-                btn.innerText = "PROCESSING HASHES...";
-                btn.style.opacity = "0.7";
-                
-                setTimeout(() => {
-                    output.style.display = 'block';
-                    btn.innerText = "VERIFIED";
-                    btn.style.backgroundColor = "var(--accent)";
-                    btn.style.color = "black";
-                    input.disabled = true;
-                }, 800);
-            } else {
-                input.style.borderColor = "red";
-                setTimeout(() => input.style.borderColor = "var(--border)", 500);
-            }
-        }
+    <!-- Project 4 -->
+    <div class="project">
+      <div class="project__visual">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#B5471E" stroke-width="1" fill="none">
+            <!-- Parallel pipelines -->
+            <rect x="20" y="40" width="160" height="20" />
+            <rect x="20" y="80" width="160" height="20" />
+            <rect x="20" y="120" width="160" height="20" />
+            <rect x="20" y="160" width="160" height="20" />
+            <line x1="60" y1="40" x2="60" y2="180" stroke-dasharray="2,4" />
+            <line x1="100" y1="40" x2="100" y2="180" stroke-dasharray="2,4" />
+            <line x1="140" y1="40" x2="140" y2="180" stroke-dasharray="2,4" />
+            <circle cx="40" cy="50" r="3" fill="#B5471E" />
+            <circle cx="80" cy="90" r="3" fill="#B5471E" />
+            <circle cx="120" cy="130" r="3" fill="#B5471E" />
+            <circle cx="160" cy="170" r="3" fill="#B5471E" />
+          </g>
+        </svg>
+      </div>
+      <div class="project__content">
+        <span class="project__num">PROJECT 04 — 2023</span>
+        <h3 class="project__title">Big Data <em>Pipeline</em></h3>
+        <p class="project__desc">Processed 2M+ records in PySpark pipelines, benchmarking Spark SQL against pandas. Achieved an 8x speedup on cluster execution. Unified 50+ vendor data sources into a single HDFS architecture, reducing data inconsistencies by 90%.</p>
+        <div class="project__tags">
+          <span class="tag">PySpark</span>
+          <span class="tag">SQL</span>
+          <span class="tag">HDFS</span>
+          <span class="tag">ETL</span>
+        </div>
+        <div class="project__meta">
+          <div class="meta__item">
+            <span class="label">Records</span>
+            <span class="value">2,000,000+</span>
+          </div>
+          <div class="meta__item">
+            <span class="label">Speedup</span>
+            <span class="value">8x</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        // --- TERMINAL RANDOMIZER ---
-        function updateTerminal() {
-            const terminal = document.getElementById('terminal');
-            const processes = [
-                "Scanning for weak ciphers...",
-                "Rotating elliptic curve keys...",
-                "Verifying ZK-SNARK proof...",
-                "Handshake initiated (TLS 1.3)...",
-                "Auditing memory allocation..."
-            ];
-            const randomProcess = processes[Math.floor(Math.random() * processes.length)];
-            
-            // Occasionally add a new line to make it look alive
-            if(Math.random() > 0.7) {
-                const newLine = document.createElement('span');
-                newLine.className = 'terminal-line cmd';
-                newLine.style.color = 'var(--text-muted)';
-                newLine.innerText = `> ${randomProcess}`;
-                terminal.appendChild(newLine);
-                
-                // Keep it clean
-                if(terminal.childElementCount > 12) {
-                    terminal.removeChild(terminal.children[1]); // Keep the header
-                }
-                terminal.scrollTop = terminal.scrollHeight;
-            }
-        }
+    <!-- Project 5 -->
+    <div class="project">
+      <div class="project__visual">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#B5471E" stroke-width="1" fill="none">
+            <!-- Bounding boxes -->
+            <rect x="30" y="30" width="60" height="50" />
+            <rect x="110" y="40" width="50" height="60" />
+            <rect x="50" y="110" width="70" height="60" />
+            <line x1="30" y1="30" x2="90" y2="80" stroke-dasharray="3,3" />
+            <line x1="110" y1="40" x2="160" y2="100" stroke-dasharray="3,3" />
+            <line x1="50" y1="110" x2="120" y2="170" stroke-dasharray="3,3" />
+            <circle cx="60" cy="55" r="2" fill="#B5471E" />
+            <circle cx="135" cy="70" r="2" fill="#B5471E" />
+            <circle cx="85" cy="140" r="2" fill="#B5471E" />
+          </g>
+        </svg>
+      </div>
+      <div class="project__content">
+        <span class="project__num">PROJECT 05 — 2024</span>
+        <h3 class="project__title">Calorie <em>Estimator</em></h3>
+        <p class="project__desc">Full-stack computer vision pipeline: YOLOv8 segmentation (93% mAP50) + EfficientNet classification (87%) + USDA FAISS lookup for nutrient retrieval. Deployed via FastAPI/Gradio on Docker for scalable, real-time inference.</p>
+        <div class="project__tags">
+          <span class="tag">YOLOv8</span>
+          <span class="tag">EfficientNet</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">Docker</span>
+        </div>
+        <div class="project__meta">
+          <div class="meta__item">
+            <span class="label">Segmentation</span>
+            <span class="value">93% mAP50</span>
+          </div>
+          <div class="meta__item">
+            <span class="label">Deployment</span>
+            <span class="value">Docker / API</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // Initialize
-        window.onload = function() {
-            typeWriter();
-            setInterval(updateTerminal, 2000);
-        };
-    </script>
+<!-- ========== SKILLS ========== -->
+<section class="section reveal" id="skills">
+  <div class="section__head">
+    <span class="section__num">03 ——</span>
+    <h2 class="section__title">Technical <em>Stack</em></h2>
+  </div>
+
+  <div class="skills__desk" id="skills-desk">
+    <div class="skills__hint"><span>DRAG</span> · <span>SCROLL</span> TO RESIZE</div>
+
+    <div class="skill-card" data-x="30" data-y="30" data-scale="1">
+      <div class="skill-card__head"><span>01</span><span>LANGUAGES</span></div>
+      <div class="skill-card__title">Core</div>
+      <div class="skill-card__list">Python (pandas, NumPy)<br>R (tidyverse, lavaan)<br>SQL<br>MATLAB<br>Bash</div>
+    </div>
+
+    <div class="skill-card" data-x="320" data-y="100" data-scale="1.1">
+      <div class="skill-card__head"><span>02</span><span>ML / AI</span></div>
+      <div class="skill-card__title">Models</div>
+      <div class="skill-card__list">PyTorch<br>scikit-learn<br>Causal ML<br>Deep Learning<br>Forecasting</div>
+    </div>
+
+    <div class="skill-card" data-x="650" data-y="50" data-scale="0.9">
+      <div class="skill-card__head"><span>03</span><span>DATA ENG</span></div>
+      <div class="skill-card__title">Big Data</div>
+      <div class="skill-card__list">PySpark<br>PostgreSQL<br>HDFS<br>NoSQL<br>ETL Pipelines</div>
+    </div>
+
+    <div class="skill-card" data-x="850" data-y="250" data-scale="1.2">
+      <div class="skill-card__head"><span>04</span><span>STATS</span></div>
+      <div class="skill-card__title">Math</div>
+      <div class="skill-card__list">SEM<br>Hypothesis Testing<br>Bayesian Methods<br>Monte Carlo<br>Time Series</div>
+    </div>
+
+    <div class="skill-card" data-x="150" data-y="350" data-scale="1">
+      <div class="skill-card__head"><span>05</span><span>VIS</span></div>
+      <div class="skill-card__title">BI & Plots</div>
+      <div class="skill-card__list">Tableau<br>Power BI<br>Matplotlib<br>ggplot2<br>GeoGebra</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== JOURNEY ========== -->
+<section class="journey reveal" id="journey">
+  <div class="journey__head">
+    <span class="section__num">04 ——</span>
+    <h2 class="section__title">Experience & <em>Education</em></h2>
+  </div>
+
+  <div class="journey__track" id="journey-track">
+    <div class="timeline-card">
+      <div class="timeline-card__year">2025 — 2026</div>
+      <h3 class="timeline-card__title">MSc Statistical Data Analysis</h3>
+      <div class="timeline-card__org">Ghent University</div>
+      <p class="timeline-card__desc">Advanced Master in Computational Track. Thesis focused on reduced SEM chi-square bias via R (lavaan) Monte Carlo simulations, achieving 12% Type I error improvement and 60% faster runtime. 10 modules in DL, Causal ML, Big Data.</p>
+      <div class="timeline-card__footer"><span>GHENT, BE</span><span>COMPUTATIONAL</span></div>
+    </div>
+
+    <div class="timeline-card">
+      <div class="timeline-card__year">2022 — 2025</div>
+      <h3 class="timeline-card__title">Business Analytics SME</h3>
+      <div class="timeline-card__org">LearningMate</div>
+      <p class="timeline-card__desc">Engineered 200+ interactive simulations (GeoGebra, Tableau) for an LMS, increasing engagement by 35% and cutting production time by 40%. Scaled to 50,000+ K-12 students across 25+ subjects at 99% accuracy.</p>
+      <div class="timeline-card__footer"><span>REMOTE</span><span>ANALYTICS</span></div>
+    </div>
+
+    <div class="timeline-card">
+      <div class="timeline-card__year">2018 — 2022</div>
+      <h3 class="timeline-card__title">Data Entrepreneur & Analyst</h3>
+      <div class="timeline-card__org">SUSTANIX</div>
+      <p class="timeline-card__desc">Designed demand forecasting across 5+ categories (R, Python, SQL), improving accuracy by 25% for a €0.5M+ revenue portfolio. Unified 50+ vendor data sources, achieving 30% better pricing evaluation.</p>
+      <div class="timeline-card__footer"><span>VADODARA, IN</span><span>FOUNDER</span></div>
+    </div>
+
+    <div class="timeline-card">
+      <div class="timeline-card__year">2014 — 2018</div>
+      <h3 class="timeline-card__title">Mathematics Faculty</h3>
+      <div class="timeline-card__org">Navrachana University</div>
+      <p class="timeline-card__desc">Taught 15 courses to 1,000+ students with an 85%+ pass rate. Developed data-driven curricula incorporating 20+ case studies bridging pure mathematical theory with applied analytics.</p>
+      <div class="timeline-card__footer"><span>VADODARA, IN</span><span>ACADEMIA</span></div>
+    </div>
+
+    <div class="timeline-card">
+      <div class="timeline-card__year">2012 — 2014</div>
+      <h3 class="timeline-card__title">MSc Pure Mathematics</h3>
+      <div class="timeline-card__org">Maharaja Sayajirao University</div>
+      <p class="timeline-card__desc">Specialized in Complex Analysis, Riemannian Geometry, Real Analysis, and Functional Analysis. Built the foundational mathematical framework for later work in causal inference and deep learning architectures.</p>
+      <div class="timeline-card__footer"><span>VADODARA, IN</span><span>MATHEMATICS</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section class="contact reveal" id="contact">
+  <p class="contact__pre">Available for Data Science & Analytics roles</p>
+  <a href="mailto:maheshsinh1910@gmail.com" class="contact__email">maheshsinh1910@gmail.com</a>
+  
+  <div class="contact__links">
+    <a href="tel:+32465658247" class="contact__link">+32 465 65 82 47</a>
+    <a href="https://linkedin.com/in/maheshsolanki-16b9a6a5" target="_blank" rel="noopener" class="contact__link">LinkedIn</a>
+    <a href="#" class="contact__link">Ghent, Belgium</a>
+  </div>
+</section>
+
+<script>
+// ========== LENIS SMOOTH SCROLL ==========
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+});
+
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+
+// ========== GSAP REGISTER ==========
+gsap.registerPlugin(ScrollTrigger);
+lenis.on('scroll', ScrollTrigger.update);
+
+// ========== HERO KINETIC TYPOGRAPHY ==========
+gsap.set('.hero__name span', { y: '120%', rotateX: -90, opacity: 0 });
+gsap.set('.hero__intro, .hero__sub', { opacity: 0, y: 20 });
+
+window.addEventListener('load', () => {
+  const tl = gsap.timeline({ delay: 0.3 });
+  tl.to('.hero__intro', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
+    .to('.hero__name [data-word="MAHESH"] span', { y: '0%', rotateX: 0, opacity: 1, duration: 1.4, stagger: 0.08, ease: 'expo.out' }, '-=0.6')
+    .to('.hero__name [data-word="SOLANKI"] span', { y: '0%', rotateX: 0, opacity: 1, duration: 1.4, stagger: 0.08, ease: 'expo.out' }, '-=1.2')
+    .to('.hero__sub', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=0.8');
+});
+
+// ========== REVEAL ON SCROLL ==========
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-in');
+      revealObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+reveals.forEach(el => revealObs.observe(el));
+
+// ========== HORIZONTAL JOURNEY SCROLL ==========
+const journeyTrack = document.getElementById('journey-track');
+const journeySection = document.getElementById('journey');
+
+if (journeyTrack && journeySection) {
+  const totalWidth = journeyTrack.scrollWidth - window.innerWidth + 200;
+  
+  gsap.to(journeyTrack, {
+    x: -totalWidth,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: journeySection,
+      start: 'top top',
+      end: '+=150%',
+      pin: true,
+      scrub: 1,
+      invalidateOnRefresh: true
+    }
+  });
+}
+
+// ========== DRAGGABLE & RESIZE SKILL CARDS ==========
+const desk = document.getElementById('skills-desk');
+const cards = desk ? desk.querySelectorAll('.skill-card') : [];
+
+cards.forEach(card => {
+  let x = parseFloat(card.dataset.x);
+  let y = parseFloat(card.dataset.y);
+  let scale = parseFloat(card.dataset.scale) || 1;
+  card.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+
+  let startX, startY, isDragging = false;
+
+  const onDown = (e) => {
+    isDragging = true;
+    card.classList.add('is-dragging');
+    const point = e.touches ? e.touches[0] : e;
+    startX = point.clientX - x;
+    startY = point.clientY - y;
+  };
+
+  const onMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const point = e.touches ? e.touches[0] : e;
+    x = point.clientX - startX;
+    y = point.clientY - startY;
+    card.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+  };
+
+  const onUp = () => {
+    isDragging = false;
+    card.classList.remove('is-dragging');
+    card.dataset.x = x;
+    card.dataset.y = y;
+  };
+
+  // Mouse wheel to resize on desktop
+  card.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    scale = Math.max(0.6, Math.min(1.8, scale - e.deltaY * 0.001));
+    card.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    card.dataset.scale = scale;
+  });
+
+  card.addEventListener('mousedown', onDown);
+  card.addEventListener('touchstart', onDown, { passive: false });
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('touchmove', onMove, { passive: false });
+  window.addEventListener('mouseup', onUp);
+  window.addEventListener('touchend', onUp);
+});
+
+// ========== RISOGRAPH DOT CURSOR TRAIL ==========
+const canvas = document.getElementById('cursor-canvas');
+const ctx = canvas.getContext('2d');
+let width, height, dots = [];
+
+function resize() {
+  width = canvas.width = window.innerWidth * window.devicePixelRatio;
+  height = canvas.height = window.innerHeight * window.devicePixelRatio;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+window.addEventListener('resize', resize);
+resize();
+
+window.addEventListener('mousemove', (e) => {
+  if (Math.random() > 0.5) {
+    dots.push({
+      x: e.clientX + (Math.random() - 0.5) * 6,
+      y: e.clientY + (Math.random() - 0.5) * 6,
+      r: Math.random() * 3 + 1,
+      alpha: 0.5,
+      vy: Math.random() * 0.3,
+      color: Math.random() > 0.6 ? '#B5471E' : '#F4F0E6'
+    });
+  }
+});
+
+function animate() {
+  ctx.clearRect(0, 0, width, height);
+  dots = dots.filter(d => d.alpha > 0);
+  
+  dots.forEach(d => {
+    d.alpha -= 0.025;
+    d.y += d.vy;
+    d.r *= 0.97;
+    
+    let hex = d.color;
+    let r = parseInt(hex.slice(1, 3), 16);
+    let g = parseInt(hex.slice(3, 5), 16);
+    let b = parseInt(hex.slice(5, 7), 16);
+    
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${d.alpha})`;
+    ctx.fill();
+  });
+  
+  requestAnimationFrame(animate);
+}
+
+if (!window.matchMedia('(pointer: coarse)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  animate();
+}
+
+// ========== SMOOTH SCROLL TO ANCHORS ==========
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      lenis.scrollTo(target, { offset: 0, duration: 1.5 });
+    }
+  });
+});
+</script>
+
 </body>
 </html>
