@@ -56,8 +56,8 @@ const Contact = () => {
           <div className="contact-info">
             <h3>Get in Touch</h3>
             <p>
-              I'm currently seeking <strong>Computational Scientist / Data Scientist</strong> positions 
-              in Belgium and the EU. Available for internships and full-time roles starting September 2025.
+              Open to <strong>Forward Deployment Engineer / Applied AI Engineering</strong> roles
+              where GenAI, ML, and data systems must deliver measurable outcomes across domains.
             </p>
 
             <div className="contact-details">

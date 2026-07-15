@@ -3,6 +3,31 @@
   background: var(--bg-secondary);
 }
 
+.projects-subtitle {
+  max-width: 760px;
+  margin: -1.5rem 0 1.5rem;
+}
+
+.projects-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.projects-summary div {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  font-size: 0.9rem;
+}
+
+.projects-status {
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -32,32 +57,12 @@
   border-radius: 6px;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--primary);
+  color: var(--text-primary);
 }
 
 .domain-icon {
-  font-size: 1.1rem;
-  color: var(--primary);
-}
-
-.priority-badge {
-  padding: 0.375rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.priority-badge.featured {
-  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-  color: white;
-}
-
-.priority-badge.high {
-  background: rgba(251, 146, 60, 0.1);
-  color: #F5920B;
-  border: 1px solid rgba(251, 146, 60, 0.3);
+  font-size: 0.8rem;
+  color: var(--text-primary);
 }
 
 .project-title {
@@ -72,37 +77,18 @@
   font-size: 0.95rem;
 }
 
-.project-highlights {
-  margin-top: 0.5rem;
-}
-
-.project-highlights strong {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-}
-
-.project-highlights ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.project-highlights li {
-  position: relative;
-  padding-left: 1.25rem;
-  margin-bottom: 0.5rem;
+.project-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
-.project-highlights li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--accent);
-  font-weight: bold;
+.project-metrics span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .tech-stack {

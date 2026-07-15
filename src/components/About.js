@@ -10,15 +10,15 @@ const About = () => {
         <div className="about-content">
           <div className="about-text">
             <p>
-              I'm a <strong>Computational Scientist</strong> with a strong foundation in pure mathematics and statistical analysis. My work bridges theoretical frameworks with practical implementations, focusing on causal inference, structural equation modelling, and machine learning.
+              I'm a <strong>Forward Deployment Engineer</strong> with a deep foundation in pure mathematics, statistical modelling, and production AI implementation.
             </p>
 
             <p>
-              Currently pursuing my thesis on <strong>Reduction of Bias in Likelihood Ratio Tests for Structural Equation Modelling</strong> at Ghent University, Belgium. This research advances computational methods to distinguish true causal mechanisms from statistical artifacts in complex, high-dimensional datasets.
+              My delivery style is repository-first: each codebase is treated as a deployable system object where data contracts, compute workflows, and technology integrations are mapped to measurable outcomes.
             </p>
 
             <p>
-              With <strong>10+ years of experience</strong> spanning academia, entrepreneurship, and data engineering, I bring a unique combination of mathematical rigor, statistical expertise, and practical engineering skills to solve complex problems across multiple domains.
+              With <strong>10+ years of experience</strong> across academia, entrepreneurship, and data engineering, I build GenAI/ML capabilities for multiple domains while maintaining research-grade rigor.
             </p>
 
             <div className="about-details">
@@ -67,12 +67,12 @@ const About = () => {
               <div className="detail-section">
                 <h3>Research Interests</h3>
                 <div className="interests">
+                  <span className="badge">Forward Deployment</span>
+                  <span className="badge">GenAI Systems</span>
+                  <span className="badge">Applied ML</span>
+                  <span className="badge">Data Engineering</span>
                   <span className="badge">Causal Inference</span>
-                  <span className="badge">SEM Bias Reduction</span>
-                  <span className="badge">Neural-Symbolic AI</span>
                   <span className="badge">Computational Statistics</span>
-                  <span className="badge">Consciousness Studies</span>
-                  <span className="badge">Complex Systems</span>
                 </div>
               </div>
             </div>

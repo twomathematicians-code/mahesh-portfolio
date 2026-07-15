@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="footer-section">
             <h4>Mahesh Solanki</h4>
             <p className="footer-tagline">
-              Computational Scientist | Mathematician
+              Forward Deployment Engineer | GenAI · ML · Data
             </p>
           </div>
 
