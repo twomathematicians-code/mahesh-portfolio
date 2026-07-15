@@ -2,6 +2,21 @@ import React from 'react';
 import './Hero.css';
 
 const Hero = () => {
+  const systemObjects = [
+    {
+      title: 'Data Object',
+      description: 'Telemetry, feature stores, and domain signals organized for live decision loops.'
+    },
+    {
+      title: 'Compute Object',
+      description: 'Model training, evaluation, and deployment pipelines built for reliability.'
+    },
+    {
+      title: 'Technology Object',
+      description: 'GenAI + ML + analytics libraries connected to real production use-cases.'
+    }
+  ];
+
   return (
     <section id="home" className="hero">
       <div className="container">
@@ -12,7 +27,7 @@ const Hero = () => {
             </h1>
             
             <h2 className="hero-subtitle">
-              Computational Scientist & Mathematician
+              Forward Deployment Engineer · GenAI · ML · Data Systems
             </h2>
 
             <div className="hero-contact">
@@ -40,74 +55,45 @@ const Hero = () => {
 
             <div className="hero-summary">
               <p>
-                Computational Scientist specializing in <strong>causal inference</strong>, <strong>structural equation modelling</strong>, and <strong>machine learning</strong>. Currently researching bias reduction methods at Ghent University, Belgium.
+                I design and deploy <strong>production-facing AI systems</strong> that connect data pipelines, model services, and domain workflows across business, finance, healthcare, and defense.
               </p>
               <p>
-                With 10+ years of experience spanning pure mathematics, statistical analysis, and data engineering, I architect computational solutions for complex problems in Business, Finance, Healthcare, and Defense domains.
+                This portfolio is organized with a minimal concept and continuously aligned to my GitHub repository activity so project intelligence stays current as libraries evolve.
               </p>
             </div>
 
-            <div className="hero-stats">
-              <div className="stat">
-                <div className="stat-number">10+</div>
-                <div className="stat-label">Years Experience</div>
-              </div>
-              <div className="stat">
-                <div className="stat-number">2</div>
-                <div className="stat-label">M.Sc. Degrees</div>
-              </div>
-              <div className="stat">
-                <div className="stat-number">9+</div>
-                <div className="stat-label">GitHub Repos</div>
-              </div>
-              <div className="stat">
-                <div className="stat-number">4</div>
-                <div className="stat-label">Domains</div>
-              </div>
+            <div className="system-objects">
+              {systemObjects.map((object) => (
+                <article key={object.title} className="system-object">
+                  <h3>{object.title}</h3>
+                  <p>{object.description}</p>
+                </article>
+              ))}
             </div>
 
             <div className="hero-cta">
-              <a href="#projects" className="btn btn-primary">View Projects</a>
-              <a href="mailto:maheshsinh1910@gmail.com" className="btn btn-secondary">Contact Me</a>
+              <a href="#projects" className="btn btn-primary">View Live Repository Feed</a>
+              <a href="mailto:maheshsinh1910@gmail.com" className="btn btn-secondary">Discuss Deployment Work</a>
             </div>
           </div>
 
           <div className="hero-visual">
             <div className="code-block">
               <div className="code-header">
-                <span>neural_architecture.py</span>
+                <span>forward_deployment_manifest.yaml</span>
               </div>
-              <pre><code>{`# Computational Framework
-class ComputationalScientist:
-    def __init__(self):
-        self.name = "Mahesh Solanki"
-        self.paradigm = "Mathematical AI"
-        self.location = "Ghent, Belgium 🇧🇪"
-        
-    @property
-    def education(self):
-        return [
-            "M.Sc. Statistical Data Analysis",
-            "M.Sc. Pure Mathematics"
-        ]
-    
-    @property
-    def research(self):
-        return "SEM Bias Reduction"
-    
-    @property
-    def domains(self):
-        return ["Finance", "Healthcare", 
-                "Defense", "Business"]
-    
-    @property
-    def stack(self):
-        return ["Python", "R", "PyTorch", 
-                "TensorFlow", "lavaan"]
-    
-    def solve(self, problem):
-        # Mathematical rigor + AI
-        return self.model(problem).optimize()`}</code></pre>
+              <pre><code>{`operator: Mahesh Solanki
+role: Forward Deployment Engineer
+mode: active
+
+pipeline:
+  source: github.com/twomathematicians-code/*
+  ingestion: "repo metadata + language + topic map"
+  routing:
+    - "GenAI / ML systems"
+    - "Data + analytics workflows"
+    - "Domain delivery: finance | healthcare | defense | business"
+  objective: "ship measurable impact with reliable model operations"`}</code></pre>
             </div>
           </div>
         </div>
