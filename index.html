@@ -1,1182 +1,1440 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mahesh Solanki — Computational Scientist & Mathematician</title>
-<meta name="description" content="Computational Mathematics Lab. Bridging pure mathematics and applied machine learning to build rigorous, scalable AI systems.">
-
-<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap'>
-
-<!-- MathJax for LaTeX support -->
-<script>
-  window.MathJax = {
-    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
-  };
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-
-<script src='https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/lenis@1.3.13/dist/lenis.min.js'></script>
-
-<style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --bg: #14110E;
-  --surface: #1E1A14;
-  --surface-2: #28221C;
-  --text: #F4F0E6;
-  --text-dim: rgba(244, 240, 230, 0.6);
-  --text-dimmer: rgba(244, 240, 230, 0.35);
-  --accent: #B5471E;
-  --accent-light: #D2541E;
-  --accent-dim: rgba(181, 71, 30, 0.15);
-  --serif: 'Cormorant Garamond', serif;
-  --sans: 'Inter', sans-serif;
-  --mono: 'JetBrains Mono', monospace;
-  --ease-quiet: cubic-bezier(.22, 1, .36, 1);
-  --ease-emphasis: cubic-bezier(.16, 1, .3, 1);
-}
-
-html { scroll-behavior: auto; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-weight: 300;
-  line-height: 1.6;
-  font-size: 16px;
-  overflow-x: hidden;
-  cursor: none;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-@media (pointer: coarse) { body { cursor: auto; } }
-::selection { background: var(--accent); color: var(--text); }
-img { max-width: 100%; display: block; }
-
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(244, 240, 230, 0.012) 2px, rgba(244, 240, 230, 0.012) 3px);
-  pointer-events: none;
-  z-index: 2;
-  mix-blend-mode: overlay;
-}
-
-.cursor-canvas {
-  position: fixed; inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: screen;
-}
-
-/* Navigation */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 1.5rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  mix-blend-mode: difference;
-  color: var(--text);
-}
-
-.nav__name {
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  font-style: italic;
-}
-
-.nav__links a {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: inherit;
-  text-decoration: none;
-  margin-left: 2rem;
-  transition: opacity 0.3s var(--ease-quiet);
-  opacity: 0.7;
-}
-
-.nav__links a:hover { opacity: 1; }
-
-/* Hero */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 2rem;
-  position: relative;
-  z-index: 3;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.hero__intro {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 2rem;
-  opacity: 0;
-}
-
-.hero__name {
-  font-family: var(--serif);
-  font-weight: 700;
-  font-size: clamp(4rem, 15vw, 14rem);
-  line-height: 0.85;
-  letter-spacing: -0.04em;
-  color: var(--text);
-  perspective: 800px;
-}
-
-.hero__name span {
-  display: inline-block;
-  transform-origin: center center;
-  will-change: transform, opacity;
-}
-
-.hero__name--last {
-  color: var(--accent);
-  font-style: italic;
-  font-weight: 500;
-}
-
-.hero__sub {
-  margin-top: 3rem;
-  font-family: var(--serif);
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  color: var(--text-dim);
-  max-width: 800px;
-  opacity: 0;
-  line-height: 1.3;
-}
-
-.hero__sub em {
-  color: var(--accent-light);
-  font-style: normal;
-  border-bottom: 1px solid var(--accent);
-}
-
-/* Section Base */
-.section {
-  padding: 8rem 2rem;
-  position: relative;
-  z-index: 3;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.section__head {
-  margin-bottom: 5rem;
-  display: flex;
-  align-items: baseline;
-  gap: 2rem;
-  border-bottom: 1px solid rgba(244, 240, 230, 0.1);
-  padding-bottom: 2rem;
-}
-
-.section__num {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 0.2em;
-}
-
-.section__title {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 400;
-  line-height: 1;
-  color: var(--text);
-  font-style: italic;
-}
-
-.section__title em {
-  color: var(--accent);
-  font-style: normal;
-}
-
-/* About */
-.about__text {
-  font-family: var(--serif);
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  line-height: 1.4;
-  color: var(--text);
-  max-width: 900px;
-  margin-bottom: 5rem;
-}
-
-.about__text em {
-  color: var(--accent);
-  font-style: normal;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  border-top: 1px solid rgba(244, 240, 230, 0.1);
-  padding-top: 3rem;
-}
-
-.stat__num {
-  font-family: var(--serif);
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
-  color: var(--accent);
-  font-weight: 500;
-  display: block;
-  line-height: 1;
-  margin-bottom: 0.5rem;
-}
-
-.stat__label {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-
-/* Projects */
-.projects {
-  display: flex;
-  flex-direction: column;
-  gap: 10rem;
-}
-
-.project {
-  display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 5rem;
-  align-items: center;
-}
-
-.project:nth-child(even) .project__content {
-  order: 2;
-}
-
-.project__visual {
-  aspect-ratio: 4/5;
-  background: var(--surface);
-  border: 1px solid rgba(181, 71, 30, 0.2);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.project__visual svg {
-  width: 80%;
-  height: 80%;
-}
-
-.project__content {
-  display: flex;
-  flex-direction: column;
-}
-
-.project__num {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: var(--accent);
-  margin-bottom: 1.5rem;
-}
-
-.project__title {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  line-height: 1.05;
-  margin-bottom: 1.5rem;
-  color: var(--text);
-}
-
-.project__title em {
-  color: var(--accent);
-  font-style: italic;
-}
-
-.project__desc {
-  font-family: var(--sans);
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: var(--text-dim);
-  margin-bottom: 2rem;
-}
-
-.project__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.tag {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text);
-  border: 1px solid rgba(244, 240, 230, 0.15);
-  padding: 0.4rem 0.8rem;
-  border-radius: 2px;
-}
-
-.project__meta {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(244, 240, 230, 0.1);
-}
-
-.meta__item .label {
-  display: block;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-dimmer);
-  margin-bottom: 0.4rem;
-}
-
-.meta__item .value {
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  color: var(--accent);
-}
-
-/* Skills Desk */
-.skills__desk {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  height: 650px;
-  background: var(--surface);
-  border: 1px solid rgba(181, 71, 30, 0.15);
-  overflow: hidden;
-  touch-action: none;
-}
-
-.skills__desk::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(181, 71, 30, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(181, 71, 30, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-}
-
-.skills__hint {
-  position: absolute;
-  bottom: 1.5rem; left: 1.5rem;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-dimmer);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.skills__hint span { color: var(--accent); }
-
-.skill-card {
-  position: absolute;
-  background: var(--bg);
-  border: 1px solid var(--accent);
-  padding: 1.5rem;
-  cursor: none;
-  user-select: none;
-  touch-action: none;
-  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.8);
-  transition: box-shadow 0.4s var(--ease-quiet);
-  transform-origin: center center;
-  will-change: transform;
-}
-
-@media (pointer: coarse) { .skill-card { cursor: grab; } }
-.skill-card.is-dragging { cursor: none; box-shadow: 0 30px 60px -10px rgba(0,0,0,0.9); z-index: 10; }
-
-.skill-card__head {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
-  opacity: 0.7;
-}
-
-.skill-card__title {
-  font-family: var(--serif);
-  font-size: 1.8rem;
-  color: var(--text);
-  line-height: 1;
-  margin-bottom: 1rem;
-}
-
-.skill-card__list {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  line-height: 1.8;
-  color: var(--text-dim);
-}
-
-/* Journey (Horizontal Scroll) */
-.journey {
-  padding: 8rem 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.journey__head {
-  padding: 0 2rem;
-  margin-bottom: 5rem;
-  display: flex;
-  align-items: baseline;
-  gap: 2rem;
-  border-bottom: 1px solid rgba(244, 240, 230, 0.1);
-  padding-bottom: 2rem;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.journey__track {
-  display: flex;
-  gap: 2rem;
-  padding: 0 4rem;
-  will-change: transform;
-}
-
-.timeline-card {
-  flex-shrink: 0;
-  width: 400px;
-  height: 500px;
-  background: var(--surface);
-  border: 1px solid rgba(181, 71, 30, 0.2);
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.timeline-card__year {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 0.2em;
-  margin-bottom: 1rem;
-}
-
-.timeline-card__title {
-  font-family: var(--serif);
-  font-size: 2.2rem;
-  color: var(--text);
-  line-height: 1.1;
-  margin-bottom: 0.5rem;
-}
-
-.timeline-card__org {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.3rem;
-  color: var(--accent);
-  margin-bottom: 2rem;
-}
-
-.timeline-card__desc {
-  font-family: var(--sans);
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: var(--text-dim);
-  flex: 1;
-}
-
-.timeline-card__footer {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(244, 240, 230, 0.1);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-dimmer);
-  display: flex;
-  justify-content: space-between;
-}
-
-/* Contact */
-.contact {
-  text-align: center;
-  padding: 12rem 2rem 6rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.contact__pre {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.5rem;
-  color: var(--accent);
-  margin-bottom: 2rem;
-}
-
-.contact__email {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 6vw, 5rem);
-  color: var(--text);
-  text-decoration: none;
-  display: inline-block;
-  border-bottom: 2px solid var(--accent);
-  padding-bottom: 0.5rem;
-  margin-bottom: 4rem;
-  transition: color 0.3s var(--ease-quiet);
-}
-
-.contact__email:hover { color: var(--accent); }
-
-.contact__links {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-  flex-wrap: wrap;
-}
-
-.contact__link {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  text-decoration: none;
-  transition: color 0.3s var(--ease-quiet);
-}
-
-.contact__link:hover { color: var(--accent); }
-
-/* Reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1.2s var(--ease-quiet), transform 1.2s var(--ease-quiet);
-}
-
-.reveal.is-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-  .reveal { opacity: 1; transform: none; }
-  .cursor-canvas { display: none; }
-}
-
-@media (max-width: 900px) {
-  .project { grid-template-columns: 1fr; gap: 3rem; }
-  .project:nth-child(even) .project__content { order: 0; }
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .nav__links a { margin-left: 1rem; font-size: 10px; }
-  .skills__desk { height: 900px; }
-  .timeline-card { width: 320px; height: 420px; padding: 2rem; }
-  .section { padding: 5rem 1.5rem; }
-  .journey__head { padding: 0 1.5rem; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon — fractal M mark -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <title>Unified Intelligence Engineer — Mahesh Solanki</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        .delay-800 { animation-delay: 0.8s; }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .pulse-dot { animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #000; }
+        }
+        .typing-effect {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #000;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+            max-width: fit-content;
+        }
+
+        .mindmap-node {
+            transition: all 0.3s ease;
+        }
+        .mindmap-node:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+        }
+
+        .pipeline-step {
+            transition: all 0.3s ease;
+        }
+        .pipeline-step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px -10px rgba(0,0,0,0.2);
+        }
+        .pipeline-step:hover .pipeline-icon {
+            transform: scale(1.15);
+        }
+        .pipeline-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.15);
+        }
+        .project-card:hover .project-arrow {
+            transform: translateX(4px);
+        }
+        .project-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .category-tag {
+            transition: all 0.2s ease;
+        }
+        .category-tag:hover {
+            background: #000;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .glass-card {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229,231,235,0.8);
+        }
+
+        .grid-bg {
+            background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        details summary::-webkit-details-marker { display: none; }
+        details summary { list-style: none; }
+        details[open] .chevron-icon { transform: rotate(180deg); }
+        .chevron-icon { transition: transform 0.3s ease; }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d1d5db, transparent);
+        }
+
+        /* Logo spin on hover */
+        .logo-mark { transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .logo-mark:hover { transform: rotate(180deg); }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
+<body class="bg-white text-zinc-900 antialiased">
 
-<canvas class="cursor-canvas" id="cursor-canvas"></canvas>
-
-<header class="nav">
-  <span class="nav__name">Computational Math Lab</span>
-  <nav class="nav__links">
-    <a href="#work">Work</a>
-    <a href="#skills">Stack</a>
-    <a href="#journey">Journey</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</header>
-
-<!-- ========== HERO ========== -->
-<section class="hero" id="hero">
-  <div class="hero__intro">Computational Scientist · Mathematician · Ghent, BE</div>
-  <h1 class="hero__name">
-    <div data-word="MAHESH"><span>M</span><span>A</span><span>H</span><span>E</span><span>S</span><span>H</span></div>
-    <div class="hero__name--last" data-word="SOLANKI"><span>S</span><span>O</span><span>L</span><span>A</span><span>N</span><span>K</span><span>I</span></div>
-  </h1>
-  <p class="hero__sub">Bridging <em>pure mathematics</em> and applied machine learning to build rigorous, scalable AI systems.</p>
-</section>
-
-<!-- ========== ABOUT ========== -->
-<section class="section reveal" id="about">
-  <div class="section__head">
-    <span class="section__num">01 ——</span>
-    <h2 class="section__title">The <em>Lab</em></h2>
-  </div>
-
-  <p class="about__text">
-    The Computational Mathematics Lab bridges the gap between theoretical rigor and applied intelligence. With over <em>7 years of experience</em> in data analytics, big data engineering, and causal inference, we turn complex, high-volume data into production-ready ML systems.
-  </p>
-
-  <div class="stats">
-    <div class="stat">
-      <span class="stat__num">7+</span>
-      <span class="stat__label">Years Experience</span>
-    </div>
-    <div class="stat">
-      <span class="stat__num">2M+</span>
-      <span class="stat__label">Records Processed</span>
-    </div>
-    <div class="stat">
-      <span class="stat__num">87%</span>
-      <span class="stat__label">Model Accuracy</span>
-    </div>
-    <div class="stat">
-      <span class="stat__num">8x</span>
-      <span class="stat__label">Pipeline Speedup</span>
-    </div>
-  </div>
-</section>
-
-<!-- ========== WORK ========== -->
-<section class="section reveal" id="work">
-  <div class="section__head">
-    <span class="section__num">02 ——</span>
-    <h2 class="section__title">Selected <em>Work</em></h2>
-  </div>
-
-  <div class="projects">
-    <!-- Project 1 -->
-    <div class="project">
-      <div class="project__visual">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#B5471E" stroke-width="1" fill="none" stroke-linecap="square">
-            <polygon points="100,15 175,57.5 175,142.5 100,185 25,142.5 25,57.5" />
-            <line x1="100" y1="15" x2="100" y2="185" />
-            <line x1="25" y1="57.5" x2="175" y2="142.5" />
-            <line x1="175" y1="57.5" x2="25" y2="142.5" />
-            <line x1="25" y1="100" x2="175" y2="100" />
-            <circle cx="100" cy="100" r="15" />
-            <circle cx="100" cy="100" r="5" fill="#B5471E" stroke="none" />
-            <circle cx="62.5" cy="78.125" r="4" fill="#B5471E" stroke="none" />
-            <circle cx="137.5" cy="78.125" r="4" fill="#B5471E" stroke="none" />
-            <circle cx="62.5" cy="121.875" r="4" fill="#B5471E" stroke="none" />
-            <circle cx="137.5" cy="121.875" r="4" fill="#B5471E" stroke="none" />
-            <line x1="62.5" y1="78.125" x2="137.5" y2="121.875" stroke-dasharray="2,2" />
-            <line x1="137.5" y1="78.125" x2="62.5" y2="121.875" stroke-dasharray="2,2" />
-          </g>
-        </svg>
-      </div>
-      <div class="project__content">
-        <span class="project__num">PROJECT 01 — 2024</span>
-        <h3 class="project__title">Knee Osteoarthritis <em>Detection</em></h3>
-        <p class="project__desc">Built a binary classifier on 1,055 knee X-rays using ResNet50 transfer learning in PyTorch. Achieved 87% accuracy and 0.92 ROC-AUC. Validated model decisions using Grad-CAM heatmaps to ensure clinical alignment with radiologist assessments.</p>
-        <div class="project__tags">
-          <span class="tag">PyTorch</span>
-          <span class="tag">ResNet50</span>
-          <span class="tag">Grad-CAM</span>
-          <span class="tag">Medical AI</span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-between px-6 md:px-24 bg-white/90 backdrop-blur-md border-b border-zinc-100">
+        <div class="flex items-center gap-3">
+            <!-- Fractal M logo (replaces text "M" badge) -->
+            <a href="#" class="logo-mark w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 200 200" fill="none">
+                    <path d="M100 15 L180 185 L145 185 L100 75 L55 185 L20 185 Z" fill="white"/>
+                    <path d="M100 15 L130 67 L70 67 Z" fill="black"/>
+                    <path d="M70 67 L85 93 L55 93 Z" fill="black"/>
+                    <path d="M130 67 L145 93 L115 93 Z" fill="black"/>
+                </svg>
+            </a>
+            <span class="text-sm font-medium tracking-tight">Mahesh Solanki</span>
         </div>
-        <div class="project__meta">
-          <div class="meta__item">
-            <span class="label">Accuracy</span>
-            <span class="value">87%</span>
-          </div>
-          <div class="meta__item">
-            <span class="label">Dataset</span>
-            <span class="value">1,055 X-rays</span>
-          </div>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#overview" class="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors duration-150">Overview</a>
+            <a href="#competencies" class="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors duration-150">Competencies</a>
+            <a href="#domains" class="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors duration-150">Domains</a>
+            <a href="#projects" class="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors duration-150">Projects</a>
+            <a href="#pipeline" class="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors duration-150">Pipeline</a>
         </div>
-      </div>
-    </div>
-
-    <!-- Project 2 -->
-    <div class="project">
-      <div class="project__visual">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#B5471E" stroke-width="1.2" fill="none">
-            <!-- DAG nodes and edges -->
-            <line x1="40" y1="100" x2="100" y2="40" />
-            <line x1="40" y1="100" x2="100" y2="160" />
-            <line x1="100" y1="40" x2="160" y2="100" />
-            <line x1="100" y1="160" x2="160" y2="100" />
-            <line x1="100" y1="40" x2="100" y2="160" stroke-dasharray="4,4" />
-            <circle cx="40" cy="100" r="10" fill="#14110E" />
-            <circle cx="100" cy="40" r="10" fill="#14110E" />
-            <circle cx="100" cy="160" r="10" fill="#14110E" />
-            <circle cx="160" cy="100" r="10" fill="#B5471E" />
-            <text x="35" y="105" fill="#F4F0E6" font-size="8" font-family="monospace">Z</text>
-            <text x="95" y="45" fill="#F4F0E6" font-size="8" font-family="monospace">X</text>
-            <text x="95" y="165" fill="#F4F0E6" font-size="8" font-family="monospace">W</text>
-            <text x="155" y="105" fill="#F4F0E6" font-size="8" font-family="monospace">Y</text>
-          </g>
-        </svg>
-      </div>
-      <div class="project__content">
-        <span class="project__num">PROJECT 02 — 2024</span>
-        <h3 class="project__title">Causal Effect <em>Estimation</em></h3>
-        <p class="project__desc">Estimated treatment effects using DAG-based causal identification via DoWhy and EconML. Implemented propensity score matching and Double Machine Learning to eliminate confounding bias. Validated robustness across multiple simulated environments.</p>
-        <div class="project__tags">
-          <span class="tag">DoWhy</span>
-          <span class="tag">EconML</span>
-          <span class="tag">Double ML</span>
-          <span class="tag">NetworkX</span>
+        <div class="flex items-center gap-3">
+            <a href="https://linkedin.com/in/maheshsolanki-16b9a6a5" target="_blank" class="w-9 h-9 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all duration-300">
+                <iconify-icon icon="linkedin" width="16"></iconify-icon>
+            </a>
+            <a href="https://github.com/twomathematicians-code" target="_blank" class="w-9 h-9 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all duration-300">
+                <iconify-icon icon="mdi:github" width="16"></iconify-icon>
+            </a>
+            <a href="mailto:maheshsinh1910@gmail.com" class="hidden sm:inline-flex bg-black text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-zinc-800 transition-colors duration-150">
+                Contact
+            </a>
         </div>
-        <div class="project__meta">
-          <div class="meta__item">
-            <span class="label">Method</span>
-            <span class="value">DAG / DML</span>
-          </div>
-          <div class="meta__item">
-            <span class="label">Validation</span>
-            <span class="value">Robustness Checked</span>
-          </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Grid -->
+        <div class="absolute inset-0 grid-bg opacity-30"></div>
+        <!-- Decorative circles -->
+        <div class="absolute top-1/4 -left-32 w-96 h-96 bg-zinc-100 rounded-full blur-3xl opacity-60"></div>
+        <div class="absolute bottom-1/4 -right-32 w-96 h-96 bg-zinc-100 rounded-full blur-3xl opacity-60"></div>
+
+        <!-- Interactive branching network canvas (cursor-reactive) -->
+        <canvas id="network-canvas" class="absolute inset-0 w-full h-full" style="z-index:1;"></canvas>
+
+        <div class="relative text-center px-6 max-w-4xl mx-auto" style="z-index:2;">
+            <!-- Badge -->
+            <div class="animate-fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 bg-white/80 backdrop-blur-sm mb-8">
+                <span class="w-2 h-2 bg-green-500 rounded-full pulse-dot"></span>
+                <span class="text-xs font-medium uppercase tracking-widest text-zinc-500">Open to Opportunities</span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="animate-fade-up delay-100 text-5xl md:text-7xl font-semibold tracking-tight leading-[1.1] mb-6">
+                Unified<br>
+                <span class="font-serif italic text-zinc-500">Intelligence</span> Engineer
+            </h1>
+
+            <!-- Typing Subtitle -->
+            <div class="animate-fade-up delay-200 flex justify-center mb-8">
+                <p class="text-zinc-500 text-sm md:text-base font-light tracking-tight typing-effect">
+                    ML Systems · Production AI · Mathematics ⊕ Code
+                </p>
+            </div>
+
+            <!-- Description -->
+            <p class="animate-fade-up delay-300 text-zinc-600 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-10">
+                Bridging the chasm between mathematical theory and production-grade AI systems. 
+                From first principles to end-to-end ML pipelines — building intelligent products 
+                that deliver measurable impact across BFSI, healthcare, and supply chain.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="animate-fade-up delay-400 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#overview" class="bg-black text-white text-sm font-medium px-8 py-3.5 rounded-full hover:bg-zinc-800 transition-colors duration-150 flex items-center gap-2">
+                    Explore Role
+                    <iconify-icon icon="lucide:arrow-down" width="16"></iconify-icon>
+                </a>
+                <a href="https://github.com/twomathematicians-code?tab=repositories" target="_blank" class="text-sm font-medium px-8 py-3.5 rounded-full border border-zinc-200 hover:border-zinc-900 transition-colors duration-150 flex items-center gap-2">
+                    View All Repos
+                    <iconify-icon icon="lucide:external-link" width="16"></iconify-icon>
+                </a>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="animate-fade-up delay-500 mt-16 flex items-center justify-center gap-8 md:gap-16">
+                <div class="text-center">
+                    <p class="text-2xl md:text-3xl font-semibold tracking-tight">30+</p>
+                    <p class="text-xs text-zinc-400 uppercase tracking-widest mt-1">Repositories</p>
+                </div>
+                <div class="w-px h-10 bg-zinc-200"></div>
+                <div class="text-center">
+                    <p class="text-2xl md:text-3xl font-semibold tracking-tight">4</p>
+                    <p class="text-xs text-zinc-400 uppercase tracking-widest mt-1">Domains</p>
+                </div>
+                <div class="w-px h-10 bg-zinc-200"></div>
+                <div class="text-center">
+                    <p class="text-2xl md:text-3xl font-semibold tracking-tight">9</p>
+                    <p class="text-xs text-zinc-400 uppercase tracking-widest mt-1">Categories</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Project 3 -->
-    <div class="project">
-      <div class="project__visual">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#B5471E" stroke-width="1" fill="none">
-            <!-- Vector grid -->
-            <line x1="20" y1="20" x2="20" y2="180" />
-            <line x1="60" y1="20" x2="60" y2="180" />
-            <line x1="100" y1="20" x2="100" y2="180" />
-            <line x1="140" y1="20" x2="140" y2="180" />
-            <line x1="180" y1="20" x2="180" y2="180" />
-            <line x1="20" y1="20" x2="180" y2="20" />
-            <line x1="20" y1="60" x2="180" y2="60" />
-            <line x1="20" y1="100" x2="180" y2="100" />
-            <line x1="20" y1="140" x2="180" y2="140" />
-            <line x1="20" y1="180" x2="180" y2="180" />
-            <circle cx="40" cy="40" r="3" fill="#B5471E" />
-            <circle cx="80" cy="120" r="3" fill="#B5471E" />
-            <circle cx="160" cy="80" r="3" fill="#B5471E" />
-            <circle cx="120" cy="160" r="3" fill="#B5471E" />
-            <circle cx="120" cy="40" r="3" fill="#B5471E" />
-          </g>
-        </svg>
-      </div>
-      <div class="project__content">
-        <span class="project__num">PROJECT 03 — 2024</span>
-        <h3 class="project__title">Retrieval-Augmented <em>Generation</em></h3>
-        <p class="project__desc">Built an open-source RAG system for textbook QA using LlamaIndex and HuggingFace embeddings. Engineered a FAISS vector index for fast retrieval and implemented a cross-encoder reranker to maximize semantic precision and reduce hallucinations.</p>
-        <div class="project__tags">
-          <span class="tag">LlamaIndex</span>
-          <span class="tag">FAISS</span>
-          <span class="tag">HuggingFace</span>
-          <span class="tag">NLP</span>
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+            <iconify-icon icon="lucide:chevron-down" width="24" class="text-zinc-400"></iconify-icon>
         </div>
-        <div class="project__meta">
-          <div class="meta__item">
-            <span class="label">Index</span>
-            <span class="value">FAISS</span>
-          </div>
-          <div class="meta__item">
-            <span class="label">Reranker</span>
-            <span class="value">Cross-Encoder</span>
-          </div>
+    </section>
+
+    <!-- Role Overview -->
+    <section id="overview" class="py-24 md:py-32 px-6 md:px-24 bg-zinc-50/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+                <!-- Left -->
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-4 block">Role Overview</span>
+                    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight mb-6">
+                        Not just an ML engineer.<br>
+                        <span class="font-serif italic text-zinc-500">A systems thinker.</span>
+                    </h2>
+                    <div class="space-y-4 text-zinc-600 font-light leading-relaxed">
+                        <p>
+                            The Unified Intelligence Engineer operates at the intersection of deep mathematics, 
+                            software engineering, and product thinking. This role doesn't fit into conventional 
+                            job titles — it <em>redefines</em> them.
+                        </p>
+                        <p>
+                            Where a typical ML engineer trains models, this role designs the entire intelligence 
+                            pipeline: from mathematical formulation through data engineering, model development, 
+                            AI orchestration, production deployment, and measurable business impact.
+                        </p>
+                        <p>
+                            The "unified" philosophy means rejecting artificial boundaries between disciplines. 
+                            Bayesian inference informs credit risk models; convex optimization powers supply chain 
+                            forecasts; graph RAG structures enterprise knowledge — all as one coherent system.
+                        </p>
+                    </div>
+                </div>
+                <!-- Right: Key Pillars -->
+                <div class="space-y-4">
+                    <div class="glass-card rounded-2xl p-6 mindmap-node cursor-default">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:sigma" width="20" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-semibold mb-1">First Principles Thinking</h3>
+                                <p class="text-sm text-zinc-500 font-light leading-relaxed">Every system is derived from mathematical foundations — not copied from tutorials. Understanding <em>why</em> before <em>how</em>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 mindmap-node cursor-default">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:workflow" width="20" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-semibold mb-1">End-to-End Ownership</h3>
+                                <p class="text-sm text-zinc-500 font-light leading-relaxed">From hypothesis to production. Data pipelines, model training, API serving, monitoring — the full lifecycle, no handoff gaps.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 mindmap-node cursor-default">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:box" width="20" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-semibold mb-1">Product-Grade Output</h3>
+                                <p class="text-sm text-zinc-500 font-light leading-relaxed">Research is valuable only when shipped. Every project targets real users, real metrics, real impact — not just notebooks.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 mindmap-node cursor-default">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:brain-circuit" width="20" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-semibold mb-1">Cross-Domain Synthesis</h3>
+                                <p class="text-sm text-zinc-500 font-light leading-relaxed">Patterns from BFSI inform healthcare models. Computer vision techniques enhance NLP pipelines. Intelligence compounds across domains.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- Project 4 -->
-    <div class="project">
-      <div class="project__visual">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#B5471E" stroke-width="1" fill="none">
-            <!-- Parallel pipelines -->
-            <rect x="20" y="40" width="160" height="20" />
-            <rect x="20" y="80" width="160" height="20" />
-            <rect x="20" y="120" width="160" height="20" />
-            <rect x="20" y="160" width="160" height="20" />
-            <line x1="60" y1="40" x2="60" y2="180" stroke-dasharray="2,4" />
-            <line x1="100" y1="40" x2="100" y2="180" stroke-dasharray="2,4" />
-            <line x1="140" y1="40" x2="140" y2="180" stroke-dasharray="2,4" />
-            <circle cx="40" cy="50" r="3" fill="#B5471E" />
-            <circle cx="80" cy="90" r="3" fill="#B5471E" />
-            <circle cx="120" cy="130" r="3" fill="#B5471E" />
-            <circle cx="160" cy="170" r="3" fill="#B5471E" />
-          </g>
-        </svg>
-      </div>
-      <div class="project__content">
-        <span class="project__num">PROJECT 04 — 2023</span>
-        <h3 class="project__title">Big Data <em>Pipeline</em></h3>
-        <p class="project__desc">Processed 2M+ records in PySpark pipelines, benchmarking Spark SQL against pandas. Achieved an 8x speedup on cluster execution. Unified 50+ vendor data sources into a single HDFS architecture, reducing data inconsistencies by 90%.</p>
-        <div class="project__tags">
-          <span class="tag">PySpark</span>
-          <span class="tag">SQL</span>
-          <span class="tag">HDFS</span>
-          <span class="tag">ETL</span>
+    <div class="section-divider mx-6 md:mx-24"></div>
+
+    <!-- Technical Competencies -->
+    <section id="competencies" class="py-24 md:py-32 px-6 md:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-4 block">Technical Competencies</span>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
+                    The Unified <span class="font-serif italic text-zinc-500">Intelligence</span> Stack
+                </h2>
+                <p class="text-zinc-500 font-light mt-4 max-w-2xl mx-auto">
+                    Four interconnected pillars forming a complete intelligence engineering capability — 
+                    each reinforcing the others.
+                </p>
+            </div>
+
+            <!-- Competency Grid -->
+            <div class="grid md:grid-cols-2 gap-6">
+
+                <!-- ML Engineering -->
+                <div class="group bg-white border border-zinc-200 rounded-2xl p-8 hover:shadow-xl hover:border-zinc-300 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-zinc-100 rounded-xl flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
+                            <iconify-icon icon="lucide:cpu" width="20"></iconify-icon>
+                        </div>
+                        <h3 class="text-lg font-semibold tracking-tight">ML Engineering</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">Production ML</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">FastAPI</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Flask</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Docker</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">CI/CD</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">MLOps</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">MLflow</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">DVC</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Model Registry</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">PostgreSQL</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">Data Engineering</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">ETL Pipelines</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Vector DBs</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Stream Processing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Systems -->
+                <div class="group bg-white border border-zinc-200 rounded-2xl p-8 hover:shadow-xl hover:border-zinc-300 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-zinc-100 rounded-xl flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
+                            <iconify-icon icon="lucide:sparkles" width="20"></iconify-icon>
+                        </div>
+                        <h3 class="text-lg font-semibold tracking-tight">AI Systems</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">GenAI & RAG</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">LangChain</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Graph RAG</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">LLM Orchestration</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">NLP</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Transformers</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">spaCy / NER</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Sentiment Analysis</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">Computer Vision</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">YOLO</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">OpenCV</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Face Recognition</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Segmentation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mathematics -->
+                <div class="group bg-white border border-zinc-200 rounded-2xl p-8 hover:shadow-xl hover:border-zinc-300 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-zinc-100 rounded-xl flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
+                            <iconify-icon icon="lucide:pi" width="20"></iconify-icon>
+                        </div>
+                        <h3 class="text-lg font-semibold tracking-tight">Mathematics</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">Statistics</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Bayesian Inference</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Hypothesis Testing</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">SEM</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">Optimization</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Gradient Descent</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Convex Optimization</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">Linear Algebra</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Matrix Decomposition</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Tensor Operations</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Developer Tools -->
+                <div class="group bg-white border border-zinc-200 rounded-2xl p-8 hover:shadow-xl hover:border-zinc-300 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-zinc-100 rounded-xl flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
+                            <iconify-icon icon="lucide:wrench" width="20"></iconify-icon>
+                        </div>
+                        <h3 class="text-lg font-semibold tracking-tight">Developer Tools & Platforms</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">Custom-Built</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">paix <span class="text-zinc-400">(NL→Python)</span></span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">raix <span class="text-zinc-400">(R AI)</span></span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Archon <span class="text-zinc-400">(Meta-Platform)</span></span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">Agents & Automation</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">AgentForge</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Ollama Integration</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">NotebookLM Agent</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-2">Infrastructure</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">Docker</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">CI/CD</span>
+                                <span class="category-tag text-xs px-3 py-1.5 rounded-full border border-zinc-200 cursor-default">GitHub Actions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="project__meta">
-          <div class="meta__item">
-            <span class="label">Records</span>
-            <span class="value">2,000,000+</span>
-          </div>
-          <div class="meta__item">
-            <span class="label">Speedup</span>
-            <span class="value">8x</span>
-          </div>
+    </section>
+
+    <div class="section-divider mx-6 md:mx-24"></div>
+
+    <!-- Domain Expertise -->
+    <section id="domains" class="py-24 md:py-32 px-6 md:px-24 bg-zinc-50/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-4 block">Domain Expertise</span>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
+                    Intelligence <span class="font-serif italic text-zinc-500">applied</span> where it matters
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- BFSI -->
+                <div class="bg-white border border-zinc-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://picsum.photos/seed/bfsi-finance-dark/600/400.jpg" alt="BFSI Domain" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-6">
+                            <span class="text-xs font-medium uppercase tracking-widest text-zinc-300">Financial Services</span>
+                            <h3 class="text-xl font-semibold text-white tracking-tight">BFSI</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:shield-check" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">Credit Risk Scoring & Assessment</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:alert-triangle" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">Real-time Fraud Detection Systems</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:scan-eye" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">AML / KYC Compliance Automation</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:trending-up" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">Financial Forecasting Models</span>
+                            </li>
+                        </ul>
+                        <div class="mt-6 pt-4 border-t border-zinc-100 flex items-center gap-2 text-xs text-zinc-400">
+                            <iconify-icon icon="mdi:github" width="14"></iconify-icon>
+                            <span>fraud-detection · engineer-credit-risk · fingraph-sentinel · financial-forecasting</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Healthcare -->
+                <div class="bg-white border border-zinc-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://picsum.photos/seed/healthcare-medical-blue/600/400.jpg" alt="Healthcare Domain" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-6">
+                            <span class="text-xs font-medium uppercase tracking-widest text-zinc-300">Life Sciences</span>
+                            <h3 class="text-xl font-semibold text-white tracking-tight">Healthcare</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:stethoscope" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">Diagnostic ML Models</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:activity" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">Survival Analysis & Risk Stratification</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:heart-pulse" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">Healthcare Analytics Pipelines</span>
+                            </li>
+                        </ul>
+                        <div class="mt-6 pt-4 border-t border-zinc-100 flex items-center gap-2 text-xs text-zinc-400">
+                            <iconify-icon icon="mdi:github" width="14"></iconify-icon>
+                            <span>healthcare-analytics · ViVAE-Research-Project</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supply Chain -->
+                <div class="bg-white border border-zinc-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://picsum.photos/seed/supply-chain-warehouse/600/400.jpg" alt="Supply Chain Domain" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-6">
+                            <span class="text-xs font-medium uppercase tracking-widest text-zinc-300">Operations</span>
+                            <h3 class="text-xl font-semibold text-white tracking-tight">Supply Chain</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:bar-chart-3" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">Demand Forecasting Systems</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:git-branch" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">Inventory Optimization</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="lucide:network" width="16" class="text-zinc-400 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm text-zinc-600 font-light">End-to-End ML Pipeline Deployment</span>
+                            </li>
+                        </ul>
+                        <div class="mt-6 pt-4 border-t border-zinc-100 flex items-center gap-2 text-xs text-zinc-400">
+                            <iconify-icon icon="mdi:github" width="14"></iconify-icon>
+                            <span>demand-forecasting · customer-analytics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- Project 5 -->
-    <div class="project">
-      <div class="project__visual">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#B5471E" stroke-width="1" fill="none">
-            <!-- Bounding boxes -->
-            <rect x="30" y="30" width="60" height="50" />
-            <rect x="110" y="40" width="50" height="60" />
-            <rect x="50" y="110" width="70" height="60" />
-            <line x1="30" y1="30" x2="90" y2="80" stroke-dasharray="3,3" />
-            <line x1="110" y1="40" x2="160" y2="100" stroke-dasharray="3,3" />
-            <line x1="50" y1="110" x2="120" y2="170" stroke-dasharray="3,3" />
-            <circle cx="60" cy="55" r="2" fill="#B5471E" />
-            <circle cx="135" cy="70" r="2" fill="#B5471E" />
-            <circle cx="85" cy="140" r="2" fill="#B5471E" />
-          </g>
-        </svg>
-      </div>
-      <div class="project__content">
-        <span class="project__num">PROJECT 05 — 2024</span>
-        <h3 class="project__title">Calorie <em>Estimator</em></h3>
-        <p class="project__desc">Full-stack computer vision pipeline: YOLOv8 segmentation (93% mAP50) + EfficientNet classification (87%) + USDA FAISS lookup for nutrient retrieval. Deployed via FastAPI/Gradio on Docker for scalable, real-time inference.</p>
-        <div class="project__tags">
-          <span class="tag">YOLOv8</span>
-          <span class="tag">EfficientNet</span>
-          <span class="tag">FastAPI</span>
-          <span class="tag">Docker</span>
+    <div class="section-divider mx-6 md:mx-24"></div>
+
+    <!-- Featured Projects -->
+    <section id="projects" class="py-24 md:py-32 px-6 md:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-4 block">Featured Work</span>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
+                    Projects that <span class="font-serif italic text-zinc-500">define</span> the role
+                </h2>
+                <p class="text-zinc-500 font-light mt-4 max-w-2xl mx-auto">
+                    Selected repositories demonstrating the breadth and depth of the Unified Intelligence approach.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Project 1: Demand Forecasting -->
+                <a href="https://github.com/twomathematicians-code/demand-forecasting" target="_blank" class="project-card bg-white border border-zinc-200 rounded-2xl p-8 flex flex-col">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-zinc-100 rounded-2xl flex items-center justify-center">
+                            <iconify-icon icon="lucide:trending-up" width="24"></iconify-icon>
+                        </div>
+                        <iconify-icon icon="lucide:arrow-up-right" width="20" class="project-arrow text-zinc-400"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold tracking-tight mb-2">Demand Forecasting</h3>
+                    <p class="text-sm text-zinc-500 font-light leading-relaxed mb-6 flex-1">End-to-end production ML pipeline for supply chain demand prediction. From data ingestion through model serving — complete with monitoring and retraining workflows.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">Production ML</span>
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">Time Series</span>
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">Supply Chain</span>
+                    </div>
+                </a>
+
+                <!-- Project 2: Archon -->
+                <a href="https://github.com/twomathematicians-code/archon" target="_blank" class="project-card bg-white border border-zinc-200 rounded-2xl p-8 flex flex-col">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-zinc-100 rounded-2xl flex items-center justify-center">
+                            <iconify-icon icon="lucide:layers" width="24"></iconify-icon>
+                        </div>
+                        <iconify-icon icon="lucide:arrow-up-right" width="20" class="project-arrow text-zinc-400"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold tracking-tight mb-2">Archon</h3>
+                    <p class="text-sm text-zinc-500 font-light leading-relaxed mb-6 flex-1">Meta-platform for AI system orchestration. A unified interface for managing multiple AI agents, workflows, and knowledge bases — the operating system for unified intelligence.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">Meta-Platform</span>
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">AI Orchestration</span>
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">Infrastructure</span>
+                    </div>
+                </a>
+
+                <!-- Project 3: raix -->
+                <a href="https://github.com/twomathematicians-code/raix" target="_blank" class="project-card bg-white border border-zinc-200 rounded-2xl p-8 flex flex-col">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-zinc-100 rounded-2xl flex items-center justify-center">
+                            <iconify-icon icon="lucide:code-2" width="24"></iconify-icon>
+                        </div>
+                        <iconify-icon icon="lucide:arrow-up-right" width="20" class="project-arrow text-zinc-400"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold tracking-tight mb-2">raix</h3>
+                    <p class="text-sm text-zinc-500 font-light leading-relaxed mb-6 flex-1">R-powered AI assistant bringing intelligent code generation and data analysis capabilities to the R ecosystem. Bridging the Python-R divide through natural language.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">R Language</span>
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">AI Assistant</span>
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">Dev Tools</span>
+                    </div>
+                </a>
+
+                <!-- Project 4: Hybrid Game Recommendation -->
+                <a href="https://github.com/twomathematicians-code/Hybrid_Game_Recommendation" target="_blank" class="project-card bg-white border border-zinc-200 rounded-2xl p-8 flex flex-col">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-zinc-100 rounded-2xl flex items-center justify-center">
+                            <iconify-icon icon="lucide:gamepad-2" width="24"></iconify-icon>
+                        </div>
+                        <iconify-icon icon="lucide:arrow-up-right" width="20" class="project-arrow text-zinc-400"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold tracking-tight mb-2">Hybrid Game Recommendation</h3>
+                    <p class="text-sm text-zinc-500 font-light leading-relaxed mb-6 flex-1">Hybrid recommender system combining collaborative filtering, content-based methods, and deep learning for personalized game recommendations at scale.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">Recommender Systems</span>
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">Deep Learning</span>
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-600">Hybrid Models</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- All Repositories by Category -->
+            <div class="mt-16">
+                <h3 class="text-xl font-semibold tracking-tight mb-8 text-center">Full Repository <span class="font-serif italic text-zinc-500">Catalog</span></h3>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Category: AI Infrastructure -->
+                    <details class="bg-white border border-zinc-200 rounded-xl overflow-hidden group">
+                        <summary class="p-5 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                                    <iconify-icon icon="lucide:server" width="14" class="text-white"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">AI Infrastructure</p>
+                                    <p class="text-xs text-zinc-400">3 repos</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="lucide:chevron-down" width="18" class="text-zinc-400 chevron-icon"></iconify-icon>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-2 border-t border-zinc-100 pt-3">
+                            <a href="https://github.com/twomathematicians-code/archon" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> archon</a>
+                            <a href="https://github.com/twomathematicians-code/raix" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> raix</a>
+                            <a href="https://github.com/twomathematicians-code/deep-computational-research-lab" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> deep-computational-research-lab</a>
+                        </div>
+                    </details>
+
+                    <!-- Category: ML Engineering -->
+                    <details class="bg-white border border-zinc-200 rounded-xl overflow-hidden group">
+                        <summary class="p-5 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                                    <iconify-icon icon="lucide:cpu" width="14" class="text-white"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">ML Engineering</p>
+                                    <p class="text-xs text-zinc-400">5 repos</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="lucide:chevron-down" width="18" class="text-zinc-400 chevron-icon"></iconify-icon>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-2 border-t border-zinc-100 pt-3">
+                            <a href="https://github.com/twomathematicians-code/demand-forecasting" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> demand-forecasting</a>
+                            <a href="https://github.com/twomathematicians-code/Manifold-DB-Repo" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> Manifold-DB-Repo</a>
+                            <a href="https://github.com/twomathematicians-code/fraud-detection" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> fraud-detection</a>
+                            <a href="https://github.com/twomathematicians-code/engineer-credit-risk" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> engineer-credit-risk</a>
+                            <a href="https://github.com/twomathematicians-code/CausalInference-Toolkit" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> CausalInference-Toolkit</a>
+                        </div>
+                    </details>
+
+                    <!-- Category: NLP & AI -->
+                    <details class="bg-white border border-zinc-200 rounded-xl overflow-hidden group">
+                        <summary class="p-5 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                                    <iconify-icon icon="lucide:message-square" width="14" class="text-white"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">NLP & AI</p>
+                                    <p class="text-xs text-zinc-400">4 repos</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="lucide:chevron-down" width="18" class="text-zinc-400 chevron-icon"></iconify-icon>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-2 border-t border-zinc-100 pt-3">
+                            <a href="https://github.com/twomathematicians-code/nlp-toolkit" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> nlp-toolkit</a>
+                            <a href="https://github.com/twomathematicians-code/chatbot-deployment" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> chatbot-deployment</a>
+                            <a href="https://github.com/twomathematicians-code/sentiment-analysis-suite" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> sentiment-analysis-suite</a>
+                            <a href="https://github.com/twomathematicians-code/chen" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> chen</a>
+                        </div>
+                    </details>
+
+                    <!-- Category: Analytics -->
+                    <details class="bg-white border border-zinc-200 rounded-xl overflow-hidden group">
+                        <summary class="p-5 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                                    <iconify-icon icon="lucide:bar-chart-3" width="14" class="text-white"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">Analytics</p>
+                                    <p class="text-xs text-zinc-400">3 repos</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="lucide:chevron-down" width="18" class="text-zinc-400 chevron-icon"></iconify-icon>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-2 border-t border-zinc-100 pt-3">
+                            <a href="https://github.com/twomathematicians-code/customer-analytics" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> customer-analytics</a>
+                            <a href="https://github.com/twomathematicians-code/recommender-systems" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> recommender-systems</a>
+                            <a href="https://github.com/twomathematicians-code/EP_Analytics" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> EP_Analytics</a>
+                        </div>
+                    </details>
+
+                    <!-- Category: Domain ML -->
+                    <details class="bg-white border border-zinc-200 rounded-xl overflow-hidden group">
+                        <summary class="p-5 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                                    <iconify-icon icon="lucide:building-2" width="14" class="text-white"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">Domain ML</p>
+                                    <p class="text-xs text-zinc-400">4 repos</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="lucide:chevron-down" width="18" class="text-zinc-400 chevron-icon"></iconify-icon>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-2 border-t border-zinc-100 pt-3">
+                            <a href="https://github.com/twomathematicians-code/fingraph-sentinel" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> fingraph-sentinel</a>
+                            <a href="https://github.com/twomathematicians-code/healthcare-analytics" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> healthcare-analytics</a>
+                            <a href="https://github.com/twomathematicians-code/financial-forecasting" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> financial-forecasting</a>
+                            <a href="https://github.com/twomathematicians-code/computer-vision" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> computer-vision</a>
+                        </div>
+                    </details>
+
+                    <!-- Category: Research -->
+                    <details class="bg-white border border-zinc-200 rounded-xl overflow-hidden group">
+                        <summary class="p-5 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                                    <iconify-icon icon="lucide:flask-conical" width="14" class="text-white"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">Research</p>
+                                    <p class="text-xs text-zinc-400">4 repos</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="lucide:chevron-down" width="18" class="text-zinc-400 chevron-icon"></iconify-icon>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-2 border-t border-zinc-100 pt-3">
+                            <a href="https://github.com/twomathematicians-code/ViVAE-Research-Project" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> ViVAE-Research-Project</a>
+                            <a href="https://github.com/twomathematicians-code/mathematical-research-collection" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> mathematical-research-collection</a>
+                            <a href="https://github.com/twomathematicians-code/bartlett-correction-sem" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> bartlett-correction-sem</a>
+                            <a href="https://github.com/twomathematicians-code/mahesh-portfolio" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> mahesh-portfolio</a>
+                        </div>
+                    </details>
+
+                    <!-- Category: Systems & Tools -->
+                    <details class="bg-white border border-zinc-200 rounded-xl overflow-hidden group">
+                        <summary class="p-5 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                                    <iconify-icon icon="lucide:wrench" width="14" class="text-white"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">Systems & Tools</p>
+                                    <p class="text-xs text-zinc-400">4 repos</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="lucide:chevron-down" width="18" class="text-zinc-400 chevron-icon"></iconify-icon>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-2 border-t border-zinc-100 pt-3">
+                            <a href="https://github.com/twomathematicians-code/AgentForge" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> AgentForge</a>
+                            <a href="https://github.com/twomathematicians-code/crypto-swarm-trader" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> crypto-swarm-trader</a>
+                            <a href="https://github.com/twomathematicians-code/ollama-rstudio-assistant" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> ollama-rstudio-assistant</a>
+                            <a href="https://github.com/twomathematicians-code/notebooklm-video-agent" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> notebooklm-video-agent</a>
+                        </div>
+                    </details>
+
+                    <!-- Category: Mathematics -->
+                    <details class="bg-white border border-zinc-200 rounded-xl overflow-hidden group">
+                        <summary class="p-5 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                                    <iconify-icon icon="lucide:sigma" width="14" class="text-white"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">Mathematics</p>
+                                    <p class="text-xs text-zinc-400">5 repos</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="lucide:chevron-down" width="18" class="text-zinc-400 chevron-icon"></iconify-icon>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-2 border-t border-zinc-100 pt-3">
+                            <a href="https://github.com/twomathematicians-code/CDL-Monograph-Markdown" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> CDL-Monograph-Markdown</a>
+                            <a href="https://github.com/twomathematicians-code/Python-Advanced-Calculus-Analysis" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> Python-Advanced-Calculus-Analysis</a>
+                            <a href="https://github.com/twomathematicians-code/python_numerical_methods" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> python_numerical_methods</a>
+                            <a href="https://github.com/twomathematicians-code/ccp_numerical_methods" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> ccp_numerical_methods</a>
+                            <a href="https://github.com/twomathematicians-code/matric-space" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> matric-space</a>
+                        </div>
+                    </details>
+
+                    <!-- Category: Experimental -->
+                    <details class="bg-white border border-zinc-200 rounded-xl overflow-hidden group">
+                        <summary class="p-5 flex items-center justify-between cursor-pointer hover:bg-zinc-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                                    <iconify-icon icon="lucide:zap" width="14" class="text-white"></iconify-icon>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">Experimental</p>
+                                    <p class="text-xs text-zinc-400">8 repos</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="lucide:chevron-down" width="18" class="text-zinc-400 chevron-icon"></iconify-icon>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-2 border-t border-zinc-100 pt-3">
+                            <a href="https://github.com/twomathematicians-code/Hybrid_Game_Recommendation" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> Hybrid_Game_Recommendation</a>
+                            <a href="https://github.com/twomathematicians-code/Mind-Not-Brain" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> Mind-Not-Brain</a>
+                            <a href="https://github.com/twomathematicians-code/post-quantum-computations" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> post-quantum-computations</a>
+                            <a href="https://github.com/twomathematicians-code/EcoDrive-Net" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> EcoDrive-Net</a>
+                            <a href="https://github.com/twomathematicians-code/Final_SEMLRT" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> Final_SEMLRT</a>
+                            <a href="https://github.com/twomathematicians-code/mantis_optimization" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> mantis_optimization</a>
+                            <a href="https://github.com/twomathematicians-code/maisuclaw" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> maisuclaw</a>
+                            <a href="https://github.com/twomathematicians-code/agnblue-vyakarana" target="_blank" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-black transition-colors py-1"><iconify-icon icon="lucide:folder" width="14" class="text-zinc-400"></iconify-icon> agnblue-vyakarana</a>
+                        </div>
+                    </details>
+                </div>
+            </div>
         </div>
-        <div class="project__meta">
-          <div class="meta__item">
-            <span class="label">Segmentation</span>
-            <span class="value">93% mAP50</span>
-          </div>
-          <div class="meta__item">
-            <span class="label">Deployment</span>
-            <span class="value">Docker / API</span>
-          </div>
+    </section>
+
+    <div class="section-divider mx-6 md:mx-24"></div>
+
+    <!-- Tech Pipeline -->
+    <section id="pipeline" class="py-24 md:py-32 px-6 md:px-24 bg-zinc-50/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-4 block">The Pipeline</span>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
+                    Math → Data → ML → AI → Prod → <span class="font-serif italic text-zinc-500">Impact</span>
+                </h2>
+                <p class="text-zinc-500 font-light mt-4 max-w-2xl mx-auto">
+                    Every project follows this six-stage pipeline. No shortcuts, no gaps.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="pipeline-step bg-white border border-zinc-200 rounded-2xl p-6 text-center cursor-default">
+                    <div class="pipeline-icon w-14 h-14 bg-zinc-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <iconify-icon icon="lucide:sigma" width="24" class="text-zinc-700"></iconify-icon>
+                    </div>
+                    <p class="text-sm font-semibold mb-1">Math</p>
+                    <p class="text-xs text-zinc-400 font-light">Formulate the problem rigorously</p>
+                    <div class="mt-3 text-xs text-zinc-300 font-mono">01</div>
+                </div>
+
+                <div class="pipeline-step bg-white border border-zinc-200 rounded-2xl p-6 text-center cursor-default">
+                    <div class="pipeline-icon w-14 h-14 bg-zinc-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <iconify-icon icon="lucide:database" width="24" class="text-zinc-700"></iconify-icon>
+                    </div>
+                    <p class="text-sm font-semibold mb-1">Data</p>
+                    <p class="text-xs text-zinc-400 font-light">Engineer pipelines & quality</p>
+                    <div class="mt-3 text-xs text-zinc-300 font-mono">02</div>
+                </div>
+
+                <div class="pipeline-step bg-white border border-zinc-200 rounded-2xl p-6 text-center cursor-default">
+                    <div class="pipeline-icon w-14 h-14 bg-zinc-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <iconify-icon icon="lucide:brain" width="24" class="text-zinc-700"></iconify-icon>
+                    </div>
+                    <p class="text-sm font-semibold mb-1">ML</p>
+                    <p class="text-xs text-zinc-400 font-light">Train & validate models</p>
+                    <div class="mt-3 text-xs text-zinc-300 font-mono">03</div>
+                </div>
+
+                <div class="pipeline-step bg-white border border-zinc-200 rounded-2xl p-6 text-center cursor-default">
+                    <div class="pipeline-icon w-14 h-14 bg-zinc-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <iconify-icon icon="lucide:sparkles" width="24" class="text-zinc-700"></iconify-icon>
+                    </div>
+                    <p class="text-sm font-semibold mb-1">AI</p>
+                    <p class="text-xs text-zinc-400 font-light">Orchestrate intelligent systems</p>
+                    <div class="mt-3 text-xs text-zinc-300 font-mono">04</div>
+                </div>
+
+                <div class="pipeline-step bg-white border border-zinc-200 rounded-2xl p-6 text-center cursor-default">
+                    <div class="pipeline-icon w-14 h-14 bg-zinc-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <iconify-icon icon="lucide:rocket" width="24" class="text-zinc-700"></iconify-icon>
+                    </div>
+                    <p class="text-sm font-semibold mb-1">Prod</p>
+                    <p class="text-xs text-zinc-400 font-light">Deploy & monitor at scale</p>
+                    <div class="mt-3 text-xs text-zinc-300 font-mono">05</div>
+                </div>
+
+                <div class="pipeline-step bg-black border border-black rounded-2xl p-6 text-center cursor-default">
+                    <div class="pipeline-icon w-14 h-14 bg-zinc-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <iconify-icon icon="lucide:target" width="24" class="text-white"></iconify-icon>
+                    </div>
+                    <p class="text-sm font-semibold mb-1 text-white">Impact</p>
+                    <p class="text-xs text-zinc-400 font-light">Measure real business value</p>
+                    <div class="mt-3 text-xs text-zinc-500 font-mono">06</div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ========== SKILLS ========== -->
-<section class="section reveal" id="skills">
-  <div class="section__head">
-    <span class="section__num">03 ——</span>
-    <h2 class="section__title">Technical <em>Stack</em></h2>
-  </div>
+    <div class="section-divider mx-6 md:mx-24"></div>
 
-  <div class="skills__desk" id="skills-desk">
-    <div class="skills__hint"><span>DRAG</span> · <span>SCROLL</span> TO RESIZE</div>
+    <!-- Responsibilities Section -->
+    <section class="py-24 md:py-32 px-6 md:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- What This Role Does -->
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-4 block">Responsibilities</span>
+                    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight mb-8">
+                        What this role <span class="font-serif italic text-zinc-500">delivers</span>
+                    </h2>
+                    <div class="space-y-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:check" width="12" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Production ML Systems</p>
+                                <p class="text-sm text-zinc-500 font-light">Design, build, and deploy end-to-end ML pipelines — from feature engineering through model serving with FastAPI/Flask, containerized with Docker, and automated via CI/CD.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:check" width="12" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">AI-Powered Product Features</p>
+                                <p class="text-sm text-zinc-500 font-light">Build GenAI applications with RAG, LangChain, and LLM orchestration. Create chatbots, recommendation engines, and intelligent automation tools.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:check" width="12" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Mathematical Modeling</p>
+                                <p class="text-sm text-zinc-500 font-light">Apply Bayesian inference, causal inference, structural equation modeling, and optimization theory to solve complex domain problems from first principles.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:check" width="12" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Data Infrastructure</p>
+                                <p class="text-sm text-zinc-500 font-light">Architect ETL pipelines, vector databases for semantic search, and stream processing systems for real-time intelligence.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:check" width="12" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Developer Tooling</p>
+                                <p class="text-sm text-zinc-500 font-light">Create custom tools and platforms (paix, raix, Archon) that amplify engineering velocity and democratize AI capabilities.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <iconify-icon icon="lucide:check" width="12" class="text-white"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Research & Publication</p>
+                                <p class="text-sm text-zinc-500 font-light">Contribute to mathematical research (Bartlett corrections for SEM, VAE research) and maintain open-source educational resources.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="skill-card" data-x="30" data-y="30" data-scale="1">
-      <div class="skill-card__head"><span>01</span><span>LANGUAGES</span></div>
-      <div class="skill-card__title">Core</div>
-      <div class="skill-card__list">Python (pandas, NumPy)<br>R (tidyverse, lavaan)<br>SQL<br>MATLAB<br>Bash</div>
-    </div>
+                <!-- What This Role Requires -->
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-widest text-zinc-400 mb-4 block">Requirements</span>
+                    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight mb-8">
+                        What this role <span class="font-serif italic text-zinc-500">demands</span>
+                    </h2>
+                    <div class="space-y-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 border-2 border-zinc-300 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <div class="w-2 h-2 bg-zinc-300 rounded-full"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Deep Mathematical Foundation</p>
+                                <p class="text-sm text-zinc-500 font-light">Strong grasp of statistics, linear algebra, optimization, and calculus — not just as tools, but as ways of thinking about problems.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 border-2 border-zinc-300 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <div class="w-2 h-2 bg-zinc-300 rounded-full"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Full-Stack ML Capability</p>
+                                <p class="text-sm text-zinc-500 font-light">Proficiency across the entire ML stack: Python, R, SQL, FastAPI, Docker, MLflow, DVC, PostgreSQL, and cloud infrastructure.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 border-2 border-zinc-300 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <div class="w-2 h-2 bg-zinc-300 rounded-full"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Modern AI Fluency</p>
+                                <p class="text-sm text-zinc-500 font-light">Hands-on experience with LLMs, RAG architectures, LangChain, vector databases, and agent-based systems.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 border-2 border-zinc-300 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <div class="w-2 h-2 bg-zinc-300 rounded-full"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Cross-Domain Curiosity</p>
+                                <p class="text-sm text-zinc-500 font-light">Ability to rapidly understand new domains (finance, healthcare, logistics) and translate domain knowledge into mathematical models.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 border-2 border-zinc-300 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <div class="w-2 h-2 bg-zinc-300 rounded-full"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Product Mindset</p>
+                                <p class="text-sm text-zinc-500 font-light">Obsession with shipping. Research is only valuable when it becomes a product. Every model needs a user, every pipeline needs a metric.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-6 h-6 border-2 border-zinc-300 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <div class="w-2 h-2 bg-zinc-300 rounded-full"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium mb-1">Open Source Ethos</p>
+                                <p class="text-sm text-zinc-500 font-light">Commitment to building in public, contributing to open source, and sharing knowledge through code, documentation, and educational content.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="skill-card" data-x="320" data-y="100" data-scale="1.1">
-      <div class="skill-card__head"><span>02</span><span>ML / AI</span></div>
-      <div class="skill-card__title">Models</div>
-      <div class="skill-card__list">PyTorch<br>scikit-learn<br>Causal ML<br>Deep Learning<br>Forecasting</div>
-    </div>
+    <div class="section-divider mx-6 md:mx-24"></div>
 
-    <div class="skill-card" data-x="650" data-y="50" data-scale="0.9">
-      <div class="skill-card__head"><span>03</span><span>DATA ENG</span></div>
-      <div class="skill-card__title">Big Data</div>
-      <div class="skill-card__list">PySpark<br>PostgreSQL<br>HDFS<br>NoSQL<br>ETL Pipelines</div>
-    </div>
+    <!-- CTA / Contact -->
+    <section class="py-24 md:py-32 px-6 md:px-24">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 bg-white/80 backdrop-blur-sm mb-8">
+                <span class="w-2 h-2 bg-green-500 rounded-full pulse-dot"></span>
+                <span class="text-xs font-medium uppercase tracking-widest text-zinc-500">Available for opportunities</span>
+            </div>
 
-    <div class="skill-card" data-x="850" data-y="250" data-scale="1.2">
-      <div class="skill-card__head"><span>04</span><span>STATS</span></div>
-      <div class="skill-card__title">Math</div>
-      <div class="skill-card__list">SEM<br>Hypothesis Testing<br>Bayesian Methods<br>Monte Carlo<br>Time Series</div>
-    </div>
+            <h2 class="text-3xl md:text-5xl font-semibold tracking-tight leading-tight mb-6">
+                Let's build something<br>
+                <span class="font-serif italic text-zinc-500">extraordinary</span>
+            </h2>
+            <p class="text-zinc-500 font-light leading-relaxed max-w-xl mx-auto mb-10">
+                Whether you need a production ML system, an AI-powered product feature, 
+                or someone who thinks in math and ships in code — let's talk.
+            </p>
 
-    <div class="skill-card" data-x="150" data-y="350" data-scale="1">
-      <div class="skill-card__head"><span>05</span><span>VIS</span></div>
-      <div class="skill-card__title">BI & Plots</div>
-      <div class="skill-card__list">Tableau<br>Power BI<br>Matplotlib<br>ggplot2<br>GeoGebra</div>
-    </div>
-  </div>
-</section>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                <a href="mailto:maheshsinh1910@gmail.com" class="bg-black text-white text-sm font-medium px-8 py-3.5 rounded-full hover:bg-zinc-800 transition-colors duration-150 flex items-center gap-2">
+                    <iconify-icon icon="lucide:mail" width="16"></iconify-icon>
+                    maheshsinh1910@gmail.com
+                </a>
+                <a href="https://linkedin.com/in/maheshsolanki-16b9a6a5" target="_blank" class="text-sm font-medium px-8 py-3.5 rounded-full border border-zinc-200 hover:border-zinc-900 transition-colors duration-150 flex items-center gap-2">
+                    <iconify-icon icon="linkedin" width="16"></iconify-icon>
+                    LinkedIn
+                </a>
+            </div>
 
-<!-- ========== JOURNEY ========== -->
-<section class="journey reveal" id="journey">
-  <div class="journey__head">
-    <span class="section__num">04 ——</span>
-    <h2 class="section__title">Experience & <em>Education</em></h2>
-  </div>
+            <!-- Contact Cards -->
+            <div class="grid sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                <a href="mailto:maheshsinh1910@gmail.com" class="bg-zinc-50 border border-zinc-200 rounded-xl p-5 hover:shadow-lg hover:border-zinc-300 transition-all duration-300 group">
+                    <iconify-icon icon="lucide:mail" width="20" class="text-zinc-400 group-hover:text-black transition-colors"></iconify-icon>
+                    <p class="text-xs text-zinc-400 mt-3 font-medium uppercase tracking-widest">Email</p>
+                    <p class="text-sm text-zinc-700 mt-1 font-medium">Gmail</p>
+                </a>
+                <a href="https://linkedin.com/in/maheshsolanki-16b9a6a5" target="_blank" class="bg-zinc-50 border border-zinc-200 rounded-xl p-5 hover:shadow-lg hover:border-zinc-300 transition-all duration-300 group">
+                    <iconify-icon icon="linkedin" width="20" class="text-zinc-400 group-hover:text-black transition-colors"></iconify-icon>
+                    <p class="text-xs text-zinc-400 mt-3 font-medium uppercase tracking-widest">Network</p>
+                    <p class="text-sm text-zinc-700 mt-1 font-medium">LinkedIn</p>
+                </a>
+                <a href="https://github.com/twomathematicians-code" target="_blank" class="bg-zinc-50 border border-zinc-200 rounded-xl p-5 hover:shadow-lg hover:border-zinc-300 transition-all duration-300 group">
+                    <iconify-icon icon="mdi:github" width="20" class="text-zinc-400 group-hover:text-black transition-colors"></iconify-icon>
+                    <p class="text-xs text-zinc-400 mt-3 font-medium uppercase tracking-widest">Code</p>
+                    <p class="text-sm text-zinc-700 mt-1 font-medium">GitHub</p>
+                </a>
+            </div>
+        </div>
+    </section>
 
-  <div class="journey__track" id="journey-track">
-    <div class="timeline-card">
-      <div class="timeline-card__year">2025 — 2026</div>
-      <h3 class="timeline-card__title">MSc Statistical Data Analysis</h3>
-      <div class="timeline-card__org">Ghent University</div>
-      <p class="timeline-card__desc">Advanced Master in Computational Track. Thesis focused on reduced SEM chi-square bias via R (lavaan) Monte Carlo simulations, achieving 12% Type I error improvement and 60% faster runtime. 10 modules in DL, Causal ML, Big Data.</p>
-      <div class="timeline-card__footer"><span>GHENT, BE</span><span>COMPUTATIONAL</span></div>
-    </div>
+    <!-- Footer -->
+    <footer class="border-t border-zinc-200 py-8 px-6 md:px-24">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <!-- Fractal M logo in footer -->
+                <div class="w-6 h-6 bg-black rounded-md flex items-center justify-center">
+                    <svg width="14" height="14" viewBox="0 0 200 200" fill="none">
+                        <path d="M100 15 L180 185 L145 185 L100 75 L55 185 L20 185 Z" fill="white"/>
+                        <path d="M100 15 L130 67 L70 67 Z" fill="black"/>
+                        <path d="M70 67 L85 93 L55 93 Z" fill="black"/>
+                        <path d="M130 67 L145 93 L115 93 Z" fill="black"/>
+                    </svg>
+                </div>
+                <span class="text-xs text-zinc-400">Mahesh Solanki — Unified Intelligence Engineer</span>
+            </div>
+            <div class="flex items-center gap-1 text-xs text-zinc-400">
+                <span>Built with</span>
+                <iconify-icon icon="lucide:heart" width="12" class="text-zinc-300"></iconify-icon>
+                <span>and mathematics</span>
+            </div>
+        </div>
+    </footer>
 
-    <div class="timeline-card">
-      <div class="timeline-card__year">2022 — 2025</div>
-      <h3 class="timeline-card__title">Business Analytics SME</h3>
-      <div class="timeline-card__org">LearningMate</div>
-      <p class="timeline-card__desc">Engineered 200+ interactive simulations (GeoGebra, Tableau) for an LMS, increasing engagement by 35% and cutting production time by 40%. Scaled to 50,000+ K-12 students across 25+ subjects at 99% accuracy.</p>
-      <div class="timeline-card__footer"><span>REMOTE</span><span>ANALYTICS</span></div>
-    </div>
+    <!-- Smooth Scroll -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
 
-    <div class="timeline-card">
-      <div class="timeline-card__year">2018 — 2022</div>
-      <h3 class="timeline-card__title">Data Entrepreneur & Analyst</h3>
-      <div class="timeline-card__org">SUSTANIX</div>
-      <p class="timeline-card__desc">Designed demand forecasting across 5+ categories (R, Python, SQL), improving accuracy by 25% for a €0.5M+ revenue portfolio. Unified 50+ vendor data sources, achieving 30% better pricing evaluation.</p>
-      <div class="timeline-card__footer"><span>VADODARA, IN</span><span>FOUNDER</span></div>
-    </div>
+        // Intersection Observer for fade-in animations
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
 
-    <div class="timeline-card">
-      <div class="timeline-card__year">2014 — 2018</div>
-      <h3 class="timeline-card__title">Mathematics Faculty</h3>
-      <div class="timeline-card__org">Navrachana University</div>
-      <p class="timeline-card__desc">Taught 15 courses to 1,000+ students with an 85%+ pass rate. Developed data-driven curricula incorporating 20+ case studies bridging pure mathematical theory with applied analytics.</p>
-      <div class="timeline-card__footer"><span>VADODARA, IN</span><span>ACADEMIA</span></div>
-    </div>
+        document.querySelectorAll('.pipeline-step, .project-card, .mindmap-node, details').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
+        });
 
-    <div class="timeline-card">
-      <div class="timeline-card__year">2012 — 2014</div>
-      <h3 class="timeline-card__title">MSc Pure Mathematics</h3>
-      <div class="timeline-card__org">Maharaja Sayajirao University</div>
-      <p class="timeline-card__desc">Specialized in Complex Analysis, Riemannian Geometry, Real Analysis, and Functional Analysis. Built the foundational mathematical framework for later work in causal inference and deep learning architectures.</p>
-      <div class="timeline-card__footer"><span>VADODARA, IN</span><span>MATHEMATICS</span></div>
-    </div>
-  </div>
-</section>
+        // Stagger animation for pipeline steps
+        document.querySelectorAll('.pipeline-step').forEach((el, i) => {
+            el.style.transitionDelay = `${i * 0.1}s`;
+        });
 
-<!-- ========== CONTACT ========== -->
-<section class="contact reveal" id="contact">
-  <p class="contact__pre">Available for Data Science & Analytics roles</p>
-  <a href="mailto:maheshsinh1910@gmail.com" class="contact__email">maheshsinh1910@gmail.com</a>
-  
-  <div class="contact__links">
-    <a href="tel:+32465658247" class="contact__link">+32 465 65 82 47</a>
-    <a href="https://linkedin.com/in/maheshsolanki-16b9a6a5" target="_blank" rel="noopener" class="contact__link">LinkedIn</a>
-    <a href="#" class="contact__link">Ghent, Belgium</a>
-  </div>
-</section>
+        // Stagger for project cards
+        document.querySelectorAll('.project-card').forEach((el, i) => {
+            el.style.transitionDelay = `${i * 0.1}s`;
+        });
 
-<script>
-// ========== LENIS SMOOTH SCROLL ==========
-const lenis = new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-});
+        // Active nav highlight
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav a[href^="#"]');
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('text-zinc-900');
+                link.classList.add('text-zinc-500');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.remove('text-zinc-500');
+                    link.classList.add('text-zinc-900');
+                }
+            });
+        });
+    </script>
 
-// ========== GSAP REGISTER ==========
-gsap.registerPlugin(ScrollTrigger);
-lenis.on('scroll', ScrollTrigger.update);
+    <!-- Interactive Branching Network — cursor-reactive particle system -->
+    <script>
+    (function () {
+        const canvas = document.getElementById('network-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
 
-// ========== HERO KINETIC TYPOGRAPHY ==========
-gsap.set('.hero__name span', { y: '120%', rotateX: -90, opacity: 0 });
-gsap.set('.hero__intro, .hero__sub', { opacity: 0, y: 20 });
+        let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const mouse = { x: null, y: null, active: false };
 
-window.addEventListener('load', () => {
-  const tl = gsap.timeline({ delay: 0.3 });
-  tl.to('.hero__intro', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
-    .to('.hero__name [data-word="MAHESH"] span', { y: '0%', rotateX: 0, opacity: 1, duration: 1.4, stagger: 0.08, ease: 'expo.out' }, '-=0.6')
-    .to('.hero__name [data-word="SOLANKI"] span', { y: '0%', rotateX: 0, opacity: 1, duration: 1.4, stagger: 0.08, ease: 'expo.out' }, '-=1.2')
-    .to('.hero__sub', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=0.8');
-});
+        function resize() {
+            const rect = canvas.getBoundingClientRect();
+            W = rect.width;
+            H = rect.height;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
 
-// ========== REVEAL ON SCROLL ==========
-const reveals = document.querySelectorAll('.reveal');
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-in');
-      revealObs.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+        // Node count scales with screen area but stays performant
+        function nodeCount() {
+            const area = W * H;
+            return Math.max(28, Math.min(90, Math.floor(area / 16000)));
+        }
 
-reveals.forEach(el => revealObs.observe(el));
+        let nodes = [];
+        function initNodes() {
+            nodes = [];
+            const n = nodeCount();
+            for (let i = 0; i < n; i++) {
+                nodes.push({
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    vx: (Math.random() - 0.5) * 0.35,
+                    vy: (Math.random() - 0.5) * 0.35,
+                    r: Math.random() * 1.4 + 0.8,
+                });
+            }
+        }
 
-// ========== HORIZONTAL JOURNEY SCROLL ==========
-const journeyTrack = document.getElementById('journey-track');
-const journeySection = document.getElementById('journey');
+        const CONNECT_DIST = 150;       // px distance for drawing links
+        const MOUSE_RADIUS = 220;        // px influence radius around cursor
+        const MOUSE_FORCE = 0.9;         // attraction strength toward cursor
 
-if (journeyTrack && journeySection) {
-  const totalWidth = journeyTrack.scrollWidth - window.innerWidth + 200;
-  
-  gsap.to(journeyTrack, {
-    x: -totalWidth,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: journeySection,
-      start: 'top top',
-      end: '+=150%',
-      pin: true,
-      scrub: 1,
-      invalidateOnRefresh: true
-    }
-  });
-}
+        function step() {
+            ctx.clearRect(0, 0, W, H);
 
-// ========== DRAGGABLE & RESIZE SKILL CARDS ==========
-const desk = document.getElementById('skills-desk');
-const cards = desk ? desk.querySelectorAll('.skill-card') : [];
+            // Update node positions + cursor interaction
+            for (let i = 0; i < nodes.length; i++) {
+                const p = nodes[i];
+                p.x += p.vx;
+                p.y += p.vy;
 
-cards.forEach(card => {
-  let x = parseFloat(card.dataset.x);
-  let y = parseFloat(card.dataset.y);
-  let scale = parseFloat(card.dataset.scale) || 1;
-  card.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+                // Soft cursor attraction — creates the "growing toward you" feeling
+                if (mouse.active) {
+                    const dx = mouse.x - p.x;
+                    const dy = mouse.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < MOUSE_RADIUS && dist > 0.1) {
+                        // Nodes within radius drift toward the cursor
+                        const pull = (1 - dist / MOUSE_RADIUS) * MOUSE_FORCE * 0.04;
+                        p.vx += (dx / dist) * pull;
+                        p.vy += (dy / dist) * pull;
+                    }
+                }
 
-  let startX, startY, isDragging = false;
+                // Wrap around edges so the field never empties
+                if (p.x < -20) p.x = W + 20;
+                if (p.x > W + 20) p.x = -20;
+                if (p.y < -20) p.y = H + 20;
+                if (p.y > H + 20) p.y = -20;
 
-  const onDown = (e) => {
-    isDragging = true;
-    card.classList.add('is-dragging');
-    const point = e.touches ? e.touches[0] : e;
-    startX = point.clientX - x;
-    startY = point.clientY - y;
-  };
+                // Gentle friction keeps velocities bounded
+                p.vx *= 0.992;
+                p.vy *= 0.992;
+            }
 
-  const onMove = (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const point = e.touches ? e.touches[0] : e;
-    x = point.clientX - startX;
-    y = point.clientY - startY;
-    card.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-  };
+            // Draw links between nearby nodes — the "branches"
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const a = nodes[i], b = nodes[j];
+                    const dx = a.x - b.x;
+                    const dy = a.y - b.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < CONNECT_DIST) {
+                        const alpha = (1 - dist / CONNECT_DIST) * 0.35;
+                        ctx.strokeStyle = 'rgba(0,0,0,' + alpha + ')';
+                        ctx.lineWidth = 0.6;
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.stroke();
+                    }
+                }
+            }
 
-  const onUp = () => {
-    isDragging = false;
-    card.classList.remove('is-dragging');
-    card.dataset.x = x;
-    card.dataset.y = y;
-  };
+            // Draw cursor-to-node links — stronger, so the network "reaches" for you
+            if (mouse.active) {
+                for (let i = 0; i < nodes.length; i++) {
+                    const p = nodes[i];
+                    const dx = mouse.x - p.x;
+                    const dy = mouse.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < MOUSE_RADIUS) {
+                        const alpha = (1 - dist / MOUSE_RADIUS) * 0.6;
+                        ctx.strokeStyle = 'rgba(0,0,0,' + alpha + ')';
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(mouse.x, mouse.y);
+                        ctx.lineTo(p.x, p.y);
+                        ctx.stroke();
+                    }
+                }
+                // Cursor node
+                ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                ctx.beginPath();
+                ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
 
-  // Mouse wheel to resize on desktop
-  card.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    scale = Math.max(0.6, Math.min(1.8, scale - e.deltaY * 0.001));
-    card.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-    card.dataset.scale = scale;
-  });
+            // Draw nodes on top
+            for (let i = 0; i < nodes.length; i++) {
+                const p = nodes[i];
+                ctx.fillStyle = 'rgba(0,0,0,0.55)';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+            }
 
-  card.addEventListener('mousedown', onDown);
-  card.addEventListener('touchstart', onDown, { passive: false });
-  window.addEventListener('mousemove', onMove);
-  window.addEventListener('touchmove', onMove, { passive: false });
-  window.addEventListener('mouseup', onUp);
-  window.addEventListener('touchend', onUp);
-});
+            requestAnimationFrame(step);
+        }
 
-// ========== RISOGRAPH DOT CURSOR TRAIL ==========
-const canvas = document.getElementById('cursor-canvas');
-const ctx = canvas.getContext('2d');
-let width, height, dots = [];
+        // Track cursor over the hero section
+        const hero = canvas.parentElement;
+        hero.addEventListener('mousemove', function (e) {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+            mouse.active = true;
+        });
+        hero.addEventListener('mouseleave', function () {
+            mouse.active = false;
+        });
+        // Touch support
+        hero.addEventListener('touchmove', function (e) {
+            if (e.touches.length > 0) {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.touches[0].clientX - rect.left;
+                mouse.y = e.touches[0].clientY - rect.top;
+                mouse.active = true;
+            }
+        }, { passive: true });
+        hero.addEventListener('touchend', function () {
+            mouse.active = false;
+        });
 
-function resize() {
-  width = canvas.width = window.innerWidth * window.devicePixelRatio;
-  height = canvas.height = window.innerHeight * window.devicePixelRatio;
-  canvas.style.width = window.innerWidth + 'px';
-  canvas.style.height = window.innerHeight + 'px';
-  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-}
-window.addEventListener('resize', resize);
-resize();
+        // Respect reduced-motion preference
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-window.addEventListener('mousemove', (e) => {
-  if (Math.random() > 0.5) {
-    dots.push({
-      x: e.clientX + (Math.random() - 0.5) * 6,
-      y: e.clientY + (Math.random() - 0.5) * 6,
-      r: Math.random() * 3 + 1,
-      alpha: 0.5,
-      vy: Math.random() * 0.3,
-      color: Math.random() > 0.6 ? '#B5471E' : '#F4F0E6'
-    });
-  }
-});
+        window.addEventListener('resize', function () {
+            resize();
+            initNodes();
+        });
 
-function animate() {
-  ctx.clearRect(0, 0, width, height);
-  dots = dots.filter(d => d.alpha > 0);
-  
-  dots.forEach(d => {
-    d.alpha -= 0.025;
-    d.y += d.vy;
-    d.r *= 0.97;
-    
-    let hex = d.color;
-    let r = parseInt(hex.slice(1, 3), 16);
-    let g = parseInt(hex.slice(3, 5), 16);
-    let b = parseInt(hex.slice(5, 7), 16);
-    
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${d.alpha})`;
-    ctx.fill();
-  });
-  
-  requestAnimationFrame(animate);
-}
-
-if (!window.matchMedia('(pointer: coarse)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  animate();
-}
-
-// ========== SMOOTH SCROLL TO ANCHORS ==========
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      lenis.scrollTo(target, { offset: 0, duration: 1.5 });
-    }
-  });
-});
-</script>
+        resize();
+        initNodes();
+        if (!prefersReduced) {
+            step();
+        } else {
+            // Draw a single static frame
+            requestAnimationFrame(step);
+            setTimeout(() => (mouse.active = false), 0);
+        }
+    })();
+    </script>
 
 </body>
 </html>
