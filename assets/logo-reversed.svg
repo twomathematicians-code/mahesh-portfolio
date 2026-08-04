@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" fill="none">
+  <!-- Sierpinski M — Reversed (white on black) -->
+  <!-- Black background -->
+  <rect width="200" height="200" fill="#000000"/>
+  <!-- Base M outline -->
+  <path d="M100 15 L180 185 L145 185 L100 75 L55 185 L20 185 Z" fill="#ffffff"/>
+  <!-- Level 1 cutout (center triangle) -->
+  <path d="M100 15 L130 67 L70 67 Z" fill="#000000"/>
+  <!-- Level 2 cutouts -->
+  <path d="M70 67 L85 93 L55 93 Z" fill="#000000"/>
+  <path d="M130 67 L145 93 L115 93 Z" fill="#000000"/>
+  <!-- Level 3 micro cutouts -->
+  <path d="M55 93 L62.5 107 L47.5 107 Z" fill="#000000"/>
+  <path d="M85 93 L92.5 107 L77.5 107 Z" fill="#000000"/>
+  <path d="M115 93 L122.5 107 L107.5 107 Z" fill="#000000"/>
+  <path d="M145 93 L152.5 107 L137.5 107 Z" fill="#000000"/>
+</svg>
